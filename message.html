@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消息 - 金融借贷平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 欢迎头部 -->
+    <div class="welcome-header">
+        <div class="welcome-text">消息中心</div>
+        <div class="welcome-subtext">最新消息推送</div>
+        <div id="currentTime" style="font-size: 14px; margin-top: 10px;"></div>
+    </div>
+
+    <!-- 消息分类 -->
+    <div class="msg-category">
+        <div class="category-item active">全部消息</div>
+        <div class="category-item">系统通知</div>
+        <div class="category-item">交易提醒</div>
+        <div class="category-item">营销活动</div>
+        <div class="category-item">客服消息</div>
+    </div>
+
+    <!-- 消息列表 -->
+    <div class="msg-list">
+        <!-- 还款提醒 -->
+        <div class="msg-item" style="background: #FFF3E0;">
+            <div class="msg-time">12:00</div>
+            <div class="msg-content">还款提醒</div>
+            <div class="msg-detail">您的贷款即将于3天后到期，请及时还款，避免产生逾期费用。</div>
+        </div>
+
+        <!-- 审核通过 -->
+        <div class="msg-item" style="background: #E8F5E9;">
+            <div class="msg-time">昨天</div>
+            <div class="msg-content">审核通过</div>
+            <div class="msg-detail">恭喜！您的申请已审核通过，额度已授信100000元，资金已打入您的银行卡。</div>
+        </div>
+
+        <!-- 信息核对 -->
+        <div class="msg-item" style="background: #E3F2FD;">
+            <div class="msg-time">昨天</div>
+            <div class="msg-content">信息核对</div>
+            <div class="msg-detail">您的信息已成功提交，我们将尽快为您进行审核，请耐心等待。</div>
+        </div>
+
+        <!-- 活动通知 -->
+        <div class="msg-item" style="background: #F3E5F5;">
+            <div class="msg-time">2天前</div>
+            <div class="msg-content">活动通知</div>
+            <div class="msg-detail">新用户专享优惠，首笔贷款免息30天，点击查看详情。</div>
+        </div>
+
+        <!-- 总授信提升 -->
+        <div class="msg-item" style="background: #FFF3E0;">
+            <div class="msg-time">3天前</div>
+            <div class="msg-content">总授信提升</div>
+            <div class="msg-detail">您的信用评级已提升，总授信额度已提升至200000元，可申请最高贷款额度已更新。</div>
+        </div>
+
+        <!-- 系统通知 -->
+        <div class="msg-item" style="background: #E0F7FA;">
+            <div class="msg-time">1周前</div>
+            <div class="msg-content">系统通知</div>
+            <div class="msg-detail">系统将于今晚23:00-次日凌晨2:00进行维护升级，期间部分功能可能暂时无法使用，请您错峰操作。</div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="nav">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="loan.html" class="nav-item">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>贷款</span>
+        </a>
+        <a href="message.html" class="nav-item active">
+            <i class="fas fa-bell"></i>
+            <span>消息</span>
+        </a>
+        <a href="mine.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <script>
+        // 时间自动更新
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            const timeString = hours + ':' + minutes;
+            document.getElementById('currentTime').textContent = timeString;
+        }
+        
+        // 初始化时间并设置定时器
+        updateTime();
+        setInterval(updateTime, 60000);
+        
+        // 为消息分类添加点击事件
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // 移除所有活跃状态
+                document.querySelectorAll('.category-item').forEach(cat => {
+                    cat.classList.remove('active');
+                });
+                // 添加当前活跃状态
+                this.classList.add('active');
+                // 这里可以添加根据分类筛选消息的逻辑
+                const category = this.textContent;
+                console.log(`切换到${category}`);
+            });
+        });
+        
+        // 为消息项添加点击事件
+        document.querySelectorAll('.msg-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const content = this.querySelector('.msg-content').textContent;
+                const detail = this.querySelector('.msg-detail').textContent;
+                alert(`消息详情\n\n${content}\n${detail}`);
+            });
+        });
+        
+        // 为导航项添加点击事件
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                // 移除所有活跃状态
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                // 添加当前活跃状态
+                this.classList.add('active');
+                // 导航到相应页面（通过href属性已经实现）
+            });
+        });
+    </script>
+</body>
+</html>

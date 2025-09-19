@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>借贷 - 极速贷款</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="welcome-header">
+        <div class="welcome-text">12:00 借贷</div>
+    </div>
+
+    <!-- 筛选栏 -->
+    <div class="filter">
+        <div class="filter-item active">全部</div>
+        <div class="filter-item">个人贷款</div>
+        <div class="filter-item">企业贷款</div>
+        <div class="filter-item">筛选</div>
+    </div>
+
+    <!-- 闪电贷产品 -->
+    <div class="product-card" style="position: relative;">
+        <div class="product-title">闪电贷</div>
+        <div class="product-info">最高20万 | 极速审批，当天到账</div>
+        <div class="product-info">年化利率 <span class="product-rate">7.2%起</span></div>
+        <div class="product-info">期限 3-12个月</div>
+        <button class="btn" onclick="window.location.href='realname.html'">立即申请</button>
+        <div class="product-amount">最高20万</div>
+    </div>
+
+    <!-- 信用贷产品 -->
+    <div class="product-card" style="position: relative;">
+        <div class="product-title">信用贷</div>
+        <div class="product-info">最高50万 | 纯信用，无需抵押</div>
+        <div class="product-info">年化利率 <span class="product-rate">8.5%起</span></div>
+        <div class="product-info">期限 6-36个月</div>
+        <button class="btn" onclick="window.location.href='realname.html'">立即申请</button>
+        <div class="product-amount">最高50万</div>
+    </div>
+
+    <!-- 更多产品（预留接口） -->
+    <div class="card" style="margin: 20px 0; padding: 15px; text-align: center;">
+        <button class="btn" style="background: white; color: #4CAF50; border: 1px solid #4CAF50;">
+            查看更多产品
+        </button>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="nav">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="loan.html" class="nav-item active">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>借贷</span>
+        </a>
+        <a href="message.html" class="nav-item">
+            <i class="fas fa-comment-dots"></i>
+            <span>消息</span>
+        </a>
+        <a href="mine.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <script>
+        // 更新当前时间
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.querySelector('.welcome-text').textContent = `${hours}:${minutes} 借贷`;
+        }
+        
+        updateTime();
+        setInterval(updateTime, 60000);
+        
+        // 筛选功能交互
+        const filterItems = document.querySelectorAll('.filter-item');
+        filterItems.forEach(item => {
+            item.addEventListener('click', () => {
+                filterItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                // 预留接口：根据筛选条件加载不同贷款产品
+            });
+        });
+    </script>
+</body>
+</html>

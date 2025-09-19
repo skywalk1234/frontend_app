@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的 - 金融借贷平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 欢迎头部 -->
+    <div class="welcome-header">
+        <div class="welcome-text">我的</div>
+        <div class="welcome-subtext">个人账户管理中心</div>
+        <div id="currentTime" style="font-size: 14px; margin-top: 10px;"></div>
+    </div>
+
+    <!-- 用户信息区域 -->
+    <div class="user-info">
+        <div class="user-avatar">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="user-phone">138****8888</div>
+        <button class="btn btn-outline" id="realnameBtn" style="margin-top: 10px;">去实名认证</button>
+    </div>
+
+    <!-- 额度信息卡片 -->
+    <div class="credit-limit-card">
+        <div class="limit-label">您的最高可贷额度</div>
+        <div class="limit-amount">200,000<span style="font-size: 18px; margin-left: 5px;">元</span></div>
+        <div style="font-size: 12px; margin-top: 5px; opacity: 0.9;">已获得审批，随时可借</div>
+    </div>
+
+    <!-- 常用功能网格 -->
+    <div class="common-functions">
+        <h3>常用功能</h3>
+        <div class="function-grid">
+            <div class="function-item">
+                <div class="function-icon" style="background: #4CAF50;"><i class="fas fa-file-invoice-dollar"></i></div>
+                <div class="function-name">我的账单</div>
+            </div>
+            <div class="function-item">
+                <div class="function-icon" style="background: #2196F3;"><i class="fas fa-exchange-alt"></i></div>
+                <div class="function-name">交易记录</div>
+            </div>
+            <div class="function-item">
+                <div class="function-icon" style="background: #FF9800;"><i class="fas fa-id-card"></i></div>
+                <div class="function-name">实名认证</div>
+            </div>
+            <div class="function-item">
+                <div class="function-icon" style="background: #9C27B0;"><i class="fas fa-credit-card"></i></div>
+                <div class="function-name">银行卡</div>
+            </div>
+            <div class="function-item">
+                <div class="function-icon" style="background: #F44336;"><i class="fas fa-question-circle"></i></div>
+                <div class="function-name">帮助中心</div>
+            </div>
+            <div class="function-item">
+                <div class="function-icon" style="background: #00BCD4;"><i class="fas fa-headset"></i></div>
+                <div class="function-name">在线客服</div>
+            </div>
+            <div class="function-item">
+                <div class="function-icon" style="background: #FFC107;"><i class="fas fa-cog"></i></div>
+                <div class="function-name">设置</div>
+            </div>
+            <div class="function-item">
+                <div class="function-icon" style="background: #607D8B;"><i class="fas fa-sign-out-alt"></i></div>
+                <div class="function-name">退出登录</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="nav">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="loan.html" class="nav-item">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>贷款</span>
+        </a>
+        <a href="message.html" class="nav-item">
+            <i class="fas fa-bell"></i>
+            <span>消息</span>
+        </a>
+        <a href="mine.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <script>
+        // 时间自动更新
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            const timeString = hours + ':' + minutes;
+            document.getElementById('currentTime').textContent = timeString;
+        }
+        
+        // 初始化时间并设置定时器
+        updateTime();
+        setInterval(updateTime, 60000);
+        
+        // 实名认证按钮点击事件
+        document.getElementById('realnameBtn').addEventListener('click', function() {
+            window.location.href = 'realname.html';
+        });
+        
+        // 为功能项添加点击事件
+        document.querySelectorAll('.function-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const functionName = this.querySelector('.function-name').textContent;
+                if (functionName === '实名认证') {
+                    window.location.href = 'realname.html';
+                } else if (functionName === '退出登录') {
+                    // 模拟退出登录
+                    if (confirm('确定要退出登录吗？')) {
+                        alert('已退出登录');
+                        // 可以跳转到登录页面
+                        // window.location.href = 'login.html';
+                    }
+                } else {
+                    alert(`即将跳转到${functionName}页面`);
+                }
+            });
+        });
+        
+        // 为导航项添加点击事件
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                // 移除所有活跃状态
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                // 添加当前活跃状态
+                this.classList.add('active');
+                // 导航到相应页面（通过href属性已经实现）
+            });
+        });
+    </script>
+</body>
+</html>
