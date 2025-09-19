@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub使用手册</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: #24292e;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        header {
+            background: #24292e;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .nav {
+            background: #f6f8fa;
+            padding: 15px 30px;
+            border-bottom: 1px solid #e1e4e8;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .nav a {
+            color: #0366d6;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        
+        .nav a:hover {
+            background: #e1e4e8;
+        }
+        
+        .content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 30px;
+        }
+        
+        .sidebar {
+            background: #f6f8fa;
+            padding: 20px;
+            border-radius: 8px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .sidebar h2 {
+            color: #0366d6;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0366d6;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+        }
+        
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar a {
+            color: #586069;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar a:hover {
+            background: #0366d6;
+            color: white;
+        }
+        
+        .main-content {
+            padding-right: 20px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #fafbfc;
+            border-radius: 8px;
+            border-left: 4px solid #0366d6;
+        }
+        
+        .section h2 {
+            color: #0366d6;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        .section p {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .code-block {
+            background: #24292e;
+            color: #f6f8fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            overflow-x: auto;
+        }
+        
+        .code-block code {
+            display: block;
+            white-space: pre-wrap;
+        }
+        
+        .tip {
+            background: #f3f9f3;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        
+        .tip h3 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        
+        .warning {
+            background: #fff5f5;
+            border-left: 4px solid #d73a49;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        
+        .warning h3 {
+            color: #d73a49;
+            margin-bottom: 10px;
+        }
+        
+        .command-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .command-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #0366d6;
+        }
+        
+        .command-card h3 {
+            margin-bottom: 15px;
+            color: #24292e;
+        }
+        
+        .workflow {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #e1e4e8;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #0366d6;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #24292e;
+            color: white;
+        }
+        
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+                margin-bottom: 30px;
+            }
+            
+            .command-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>GitHub使用手册</h1>
+            <p>从入门到精通的Git和GitHub完整指南</p>
+        </header>
+        
+        <div class="nav">
+            <a href="#basics">基础操作</a>
+            <a href="#branch">分支管理</a>
+            <a href="#remote">远程仓库</a>
+            <a href="#collab">团队协作</a>
+            <a href="#advanced">高级技巧</a>
+        </div>
+        
+        <div class="content">
+            <div class="sidebar">
+                <h2>目录</h2>
+                <ul>
+                    <li><a href="#install">安装与配置</a></li>
+                    <li><a href="#create">创建仓库</a></li>
+                    <li><a href="#stage">保存更改</a></li>
+                    <li><a href="#push">推送文件</a></li>
+                    <li><a href="#clone">克隆仓库</a></li>
+                    <li><a href="#pull">拉取更新</a></li>
+                    <li><a href="#branch-workflow">分支工作流</a></li>
+                    <li><a href="#merge">分支合并</a></li>
+                    <li><a href="#conflict">冲突解决</a></li>
+                    <li><a href="#pr">Pull Request</a></li>
+                    <li><a href="#ignore">.gitignore</a></li>
+                    <li><a href="#ssh">SSH密钥</a></li>
+                </ul>
+            </div>
+            
+            <div class="main-content">
+                <div id="basics" class="section">
+                    <h2>Git基础操作</h2>
+                    
+                    <div id="install" class="subsection">
+                        <h3>安装与配置Git</h3>
+                        <p>首先需要安装Git并配置用户信息：</p>
+                        <div class="code-block">
+                            <code># 安装Git（根据操作系统选择相应方式）
+# Windows: 下载Git for Windows
+# macOS: brew install git
+# Ubuntu: sudo apt install git
+
+# 配置用户信息
+git config --global user.name "你的用户名"
+git config --global user.email "你的邮箱"
+git config --global core.editor "code --wait"  # 设置VS Code为默认编辑器</code>
+                        </div>
+                    </div>
+                    
+                    <div id="create" class="subsection">
+                        <h3>创建仓库</h3>
+                        <p>初始化一个新的Git仓库：</p>
+                        <div class="code-block">
+                            <code># 创建新文件夹并初始化Git仓库
+mkdir my-project
+cd my-project
+git init
+
+# 或者克隆现有仓库
+git clone https://github.com/username/repository.git</code>
+                        </div>
+                    </div>
+                    
+                    <div id="stage" class="subsection">
+                        <h3>保存更改</h3>
+                        <p>Git工作流程：工作区 → 暂存区 → 仓库</p>
+                        
+                        <div class="code-block">
+                            <code># 检查当前状态
+git status
+
+# 添加文件到暂存区
+git add filename.txt      # 添加特定文件
+git add .                 # 添加所有文件
+git add *.js              # 添加所有js文件
+
+# 提交更改到仓库
+git commit -m "描述性提交信息"
+
+# 添加并提交的快捷方式（仅针对已跟踪文件）
+git commit -am "描述性提交信息"</code>
+                        </div>
+                        
+                        <div class="tip">
+                            <h3>最佳实践</h3>
+                            <p>提交信息应该清晰明了，说明本次提交的目的和内容。使用命令式语气，如"Fix bug"而不是"Fixed bug"。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="remote" class="section">
+                    <h2>远程仓库操作</h2>
+                    
+                    <div id="push" class="subsection">
+                        <h3>推送文件到远程仓库</h3>
+                        <p>将本地更改推送到GitHub远程仓库：</p>
+                        
+                        <div class="code-block">
+                            <code># 添加远程仓库（通常命名为origin）
+git remote add origin https://github.com/username/repository.git
+
+# 查看已配置的远程仓库
+git remote -v
+
+# 推送到远程仓库
+git push -u origin main   # 第一次推送时建立跟踪关系
+git push                 # 之后简化推送</code>
+                        </div>
+                    </div>
+                    
+                    <div id="clone" class="subsection">
+                        <h3>克隆远程仓库</h3>
+                        <p>获取远程仓库的完整副本：</p>
+                        
+                        <div class="code-block">
+                            <code># 克隆仓库
+git clone https://github.com/username/repository.git
+
+# 克隆到特定文件夹
+git clone https://github.com/username/repository.git my-folder
+
+# 克隆特定分支
+git clone -b branch-name https://github.com/username/repository.git</code>
+                        </div>
+                    </div>
+                    
+                    <div id="pull" class="subsection">
+                        <h3>拉取更新</h3>
+                        <p>获取远程仓库的最新更改：</p>
+                        
+                        <div class="code-block">
+                            <code># 获取远程更新（不会自动合并）
+git fetch
+
+# 获取并合并远程更新
+git pull
+
+# 相当于 git fetch + git merge
+git pull origin main
+
+# 使用rebase而不是merge
+git pull --rebase origin main</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="branch" class="section">
+                    <h2>分支管理</h2>
+                    
+                    <div class="subsection">
+                        <h3>分支操作</h3>
+                        <p>Git的分支功能让团队协作更加高效：</p>
+                        
+                        <div class="code-block">
+                            <code># 查看所有分支
+git branch           # 本地分支
+git branch -r        # 远程分支
+git branch -a        # 所有分支
+
+# 创建新分支
+git branch new-feature
+
+# 切换分支
+git checkout new-feature
+git switch new-feature  # 新版本推荐方式
+
+# 创建并切换分支
+git checkout -b new-feature
+git switch -c new-feature
+
+# 删除分支
+git branch -d branch-name   # 安全删除
+git branch -D branch-name   # 强制删除
+
+# 重命名分支
+git branch -m old-name new-name</code>
+                        </div>
+                    </div>
+                    
+                    <div id="merge" class="subsection">
+                        <h3>分支合并</h3>
+                        <p>将不同分支的工作成果合并到一起：</p>
+                        
+                        <div class="code-block">
+                            <code># 先切换到要合并到的分支（如main）
+git checkout main
+
+# 合并特性分支
+git merge feature-branch
+
+# 使用no-ff方式合并（保留分支历史）
+git merge --no-ff feature-branch
+
+# 使用rebase整合分支（创建线性历史）
+git checkout feature-branch
+git rebase main</code>
+                        </div>
+                        
+                        <div class="tip">
+                            <h3>Merge vs Rebase</h3>
+                            <p><strong>Merge</strong> 保留完整历史，适合公共分支。<strong>Rebase</strong> 创建线性历史，适合本地分支整理提交记录。</p>
+                        </div>
+                    </div>
+                    
+                    <div id="conflict" class="subsection">
+                        <h3>解决合并冲突</h3>
+                        <p>当Git无法自动合并更改时，需要手动解决冲突：</p>
+                        
+                        <div class="code-block">
+                            <code># 合并时发生冲突
+git merge feature-branch
+
+# 查看冲突文件
+git status
+
+# 手动编辑文件解决冲突
+# 文件中的冲突标记：
+# <<<<<<< HEAD
+# 当前分支的内容
+# =======
+# 要合并的分支的内容
+# >>>>>>> feature-branch
+
+# 解决后标记为已解决
+git add resolved-file.txt
+
+# 完成合并
+git commit</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="collab" class="section">
+                    <h2>团队协作</h2>
+                    
+                    <div id="pr" class="subsection">
+                        <h3>Pull Request工作流</h3>
+                        <p>GitHub协作的标准流程：</p>
+                        
+                        <div class="workflow">
+                            <div class="workflow-step">
+                                <div class="step-number">1</div>
+                                <div>
+                                    <h4>创建特性分支</h4>
+                                    <p>从main分支创建新分支进行开发</p>
+                                    <div class="code-block">
+                                        <code>git checkout -b feature/new-feature</code>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="workflow-step">
+                                <div class="step-number">2</div>
+                                <div>
+                                    <h4>开发并提交更改</h4>
+                                    <p>在特性分支上完成开发工作</p>
+                                    <div class="code-block">
+                                        <code>git add .
+git commit -m "实现新功能"</code>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="workflow-step">
+                                <div class="step-number">3</div>
+                                <div>
+                                    <h4>推送到远程</h4>
+                                    <p>将特性分支推送到GitHub</p>
+                                    <div class="code-block">
+                                        <code>git push -u origin feature/new-feature</code>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="workflow-step">
+                                <div class="step-number">4</div>
+                                <div>
+                                    <h4>创建Pull Request</h4>
+                                    <p>在GitHub上创建PR请求合并到main分支</p>
+                                </div>
+                            </div>
+                            
+                            <div class="workflow-step">
+                                <div class="step-number">5</div>
+                                <div>
+                                    <h4>代码审查与合并</h4>
+                                    <p>团队成员审查代码后合并到main分支</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="advanced" class="section">
+                    <h2>高级技巧</h2>
+                    
+                    <div id="ignore" class="subsection">
+                        <h3>.gitignore文件</h3>
+                        <p>指定不需要版本控制的文件和文件夹：</p>
+                        
+                        <div class="code-block">
+                            <code># 忽略所有.log文件
+*.log
+
+# 忽略node_modules文件夹
+node_modules/
+
+# 忽略.env环境文件
+.env
+
+# 忽略dist文件夹但保留空文件夹
+dist/
+!.gitkeep
+
+# 忽略所有txt文件除了important.txt
+*.txt
+!important.txt</code>
+                        </div>
+                    </div>
+                    
+                    <div id="ssh" class="subsection">
+                        <h3>SSH密钥认证</h3>
+                        <p>使用SSH密钥避免每次输入密码：</p>
+                        
+                        <div class="code-block">
+                            <code># 生成SSH密钥
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# 或者使用RSA
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+# 将公钥添加到GitHub
+cat ~/.ssh/id_ed25519.pub
+
+# 测试连接
+ssh -T git@github.com</code>
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>实用命令</h3>
+                        
+                        <div class="command-grid">
+                            <div class="command-card">
+                                <h3>查看提交历史</h3>
+                                <div class="code-block">
+                                    <code>git log
+git log --oneline
+git log --graph
+git log -p filename</code>
+                                </div>
+                            </div>
+                            
+                            <div class="command-card">
+                                <h3>撤销操作</h3>
+                                <div class="code-block">
+                                    <code># 撤销暂存的文件
+git reset HEAD filename
+
+# 撤销工作区的修改
+git checkout -- filename
+
+# 修改最后一次提交
+git commit --amend
+
+# 回退到特定提交
+git reset --hard commit_hash</code>
+                                </div>
+                            </div>
+                            
+                            <div class="command-card">
+                                <h3>储藏更改</h3>
+                                <div class="code-block">
+                                    <code># 临时储藏工作进度
+git stash
+
+# 查看储藏列表
+git stash list
+
+# 恢复最新储藏
+git stash pop
+
+# 应用特定储藏
+git stash apply stash@{1}
+
+# 清除所有储藏
+git stash clear</code>
+                                </div>
+                            </div>
+                            
+                            <div class="command-card">
+                                <h3>标签管理</h3>
+                                <div class="code-block">
+                                    <code># 创建标签
+git tag v1.0.0
+
+# 创建带注释的标签
+git tag -a v1.0.0 -m "版本1.0.0"
+
+# 推送标签到远程
+git push origin v1.0.0
+
+# 推送所有标签
+git push origin --tags
+
+# 删除标签
+git tag -d v1.0.0
+git push origin --delete v1.0.0</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>GitHub使用手册 &copy; 2023 - 持续更新中</p>
+        </footer>
+    </div>
+
+    <script>
+        // 添加交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 代码块点击选择功能
+            const codeBlocks = document.querySelectorAll('.code-block');
+            codeBlocks.forEach(block => {
+                block.addEventListener('click', function() {
+                    const range = document.createRange();
+                    range.selectNodeContents(this);
+                    const selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    
+                    // 提供视觉反馈
+                    this.style.backgroundColor = '#1c2128';
+                    setTimeout(() => {
+                        this.style.backgroundColor = '#24292e';
+                    }, 300);
+                });
+            });
+            
+            // 平滑滚动
+            document.querySelectorAll('.sidebar a, .nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -19,7 +19,7 @@
     <div class="credit-limit-card">
         <div class="limit-label">您的最高可贷额度</div>
         <div class="limit-amount">200,000<span style="font-size: 18px; margin-left: 5px;">元</span></div>
-        <button class="btn" style="margin-top: 10px; background: rgba(255,255,255,0.2); border: 1px solid white;">立即申请</button>
+        <button class="btn" style="margin-top: 10px; background: rgba(255,255,255,0.2); border: 1px solid white;" data-action="apply_amount">立即申请</button>
     </div>
 
     <!-- 功能特性网格 -->
@@ -42,19 +42,19 @@
         </div>
     </div>
 
-    <!-- 快捷服务卡片 -->
+    <!-- 快捷服务卡片
     <div class="service-cards">
         <div class="service-card">
             <h3>闪电贷</h3>
             <p>最快30秒放款，额度高达20万</p>
-            <button class="btn">立即申请</button>
+            <button class="btn" >立即申请</button>
         </div>
         <div class="service-card">
             <h3>信用贷</h3>
             <p>无抵押贷款，随借随还</p>
             <button class="btn">立即申请</button>
         </div>
-    </div>
+    </div> -->
 
     <!-- 贷款产品推荐 -->
     <div class="card">
@@ -118,6 +118,15 @@
             btn.addEventListener('click', function() {
                 // 这里可以添加点击事件处理逻辑
                 // 例如跳转到贷款详情页面
+                const action = this.getAttribute('data-action');
+                switch(action){
+                    case 'apply_amount':
+                        window.location.href = './实名认证.html';
+                        break;
+                    default:
+                        // window.location.href = 'loan.html';
+                        break;
+                }
                 console.log('Button clicked:', this.textContent);
             });
         });
