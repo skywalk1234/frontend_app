@@ -69,8 +69,8 @@
     }
     
     .upload-container:hover {
-      border-color: #4CAF50;
-      background: #f8fff8;
+      border-color: #0f4c81;
+      background: #f0f2f5;
     }
     
     .upload-icon {
@@ -105,18 +105,21 @@
     .btn {
       width: 100%;
       padding: 14px;
-      background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+      background: linear-gradient(135deg, #0f4c81 0%, #1a3a5f 100%);
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 4px;
       cursor: pointer;
       margin-top: 30px;
       font-size: 16px;
       font-weight: bold;
+      transition: all 0.3s;
     }
     
     .btn:hover {
-      opacity: 0.9;
+      background: linear-gradient(135deg, #1a3a5f 0%, #0f4c81 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
     
     /* 隐私提示 */
@@ -157,7 +160,7 @@
     }
     
     .nav-item.active {
-      color: #4CAF50;
+      color: #0f4c81;
     }
   </style>
 </head>
@@ -247,9 +250,9 @@
           
           uploadIcon.classList.remove('fa-id-card');
           uploadIcon.classList.add('fa-check-circle');
-          uploadIcon.style.color = '#4CAF50';
+          uploadIcon.style.color = '#0f4c81';
           uploadText.textContent = '已上传：' + this.files[0].name;
-          uploadText.style.color = '#4CAF50';
+          uploadText.style.color = '#0f4c81';
         }
       });
     });

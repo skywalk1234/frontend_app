@@ -14,7 +14,7 @@
         }
         
         body {
-            background: linear-gradient(135deg, #f0f9f0 0%, #e6f4e6 100%);
+            background: linear-gradient(135deg, #f0f2f5 0%, #e6e9ed 100%);
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
@@ -66,7 +66,7 @@
         
         .header p {
             font-size: 1.4rem;
-            color: #4CAF50;
+            color: #0f4c81;
             margin-bottom: 0.4rem;
         }
         
@@ -89,16 +89,16 @@
         
         .upload-box {
             width: 48%;
-            border: 0.2rem dashed #4CAF50;
+            border: 0.2rem dashed #0f4c81;
             border-radius: 1.2rem;
             padding: 1.6rem;
             text-align: center;
-            background: #f9fdf9;
+            background: #f0f2f5;
         }
         
         .upload-icon {
             font-size: 3rem;
-            color: #4CAF50;
+            color: #0f4c81;
             margin-bottom: 1rem;
         }
         
@@ -129,7 +129,7 @@
         
         .instructions-header a {
             font-size: 1.4rem;
-            color: #4CAF50;
+            color: #0f4c81;
             text-decoration: none;
         }
         
@@ -149,7 +149,7 @@
         }
         
         .correct .example-icon {
-            color: #4CAF50;
+            color: #0f4c81;
         }
         
         .incorrect .example-icon {
@@ -178,7 +178,7 @@
             display: block;
             width: 100%;
             padding: 1.6rem;
-            background: #4CAF50;
+            background: linear-gradient(135deg, #0f4c81 0%, #1a3a5f 100%);
             color: white;
             border: none;
             border-radius: 1.2rem;
@@ -186,6 +186,7 @@
             font-weight: 500;
             cursor: pointer;
             margin-bottom: 1.2rem;
+            transition: all 0.3s;
         }
         
         .brand {
@@ -284,9 +285,9 @@
         
         // 下一步按钮点击效果
         document.querySelector('.next-btn').addEventListener('click', function() {
-            this.style.backgroundColor = '#388E3C';
+            this.style.backgroundColor = '#1a3a5f';
             setTimeout(() => {
-                this.style.backgroundColor = '#4CAF50';
+                this.style.backgroundColor = '#0f4c81';
                 alert('下一步操作');
             }, 300);
         });
