@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册 - 金融借贷平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f4c81 0%, #1a3a5f 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 80px;
+        }
+        .register-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .logo-section {
+            text-align: center;
+            margin: 40px 0 30px;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0f4c81 0%, #1a3a5f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .logo i {
+            font-size: 40px;
+            color: white;
+        }
+        .app-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .app-slogan {
+            font-size: 14px;
+            color: #666;
+        }
+        .register-form {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        .form-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .form-input {
+            width: 100%;
+            height: 48px;
+            padding: 0 15px;
+            border: 1px solid #E0E0E0;
+            border-radius: 24px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #0f4c81;
+            box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.1);
+        }
+        .phone-input-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #E0E0E0;
+            border-radius: 24px;
+            padding: 0 15px;
+            transition: all 0.3s ease;
+        }
+        .phone-input-group:focus-within {
+            border-color: #0f4c81;
+            box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.1);
+        }
+        .country-code {
+            padding-right: 10px;
+            font-size: 16px;
+            color: #333;
+            border-right: 1px solid #E0E0E0;
+            margin-right: 10px;
+        }
+        .phone-input {
+            flex: 1;
+            height: 46px;
+            border: none;
+            font-size: 16px;
+            outline: none;
+        }
+        .code-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        .code-input {
+            flex: 1;
+            height: 48px;
+            padding: 0 15px;
+            border: 1px solid #E0E0E0;
+            border-radius: 24px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            min-width: 0; /* 防止flex子元素溢出容器 */
+        }
+        .code-input:focus {
+            outline: none;
+            border-color: #0f4c81;
+            box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.1);
+        }
+        .get-code-btn {
+            padding: 0 15px; /* 减少内边距，使按钮更紧凑 */
+            height: 48px;
+            background: linear-gradient(135deg, #0f4c81, #1a3a5f);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-sizing: border-box;
+            min-width: 80px; /* 设置最小宽度，确保文字不会被截断 */
+        }
+        .get-code-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #1a3a5f, #0f4c81);
+            transform: translateY(-1px);
+        }
+        .get-code-btn:disabled {
+            background: #CCCCCC;
+            cursor: not-allowed;
+        }
+        .register-btn {
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(135deg, #0f4c81, #1a3a5f);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+        .register-btn:hover {
+            background: linear-gradient(135deg, #1a3a5f, #0f4c81);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(15, 76, 129, 0.2);
+        }
+        .agreement {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #999;
+        }
+        .agreement a {
+            color: #0f4c81;
+            text-decoration: none;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        .login-btn-link {
+            color: #0f4c81;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .upload-container {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            background: #fafafa;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .upload-container:hover {
+            border-color: #0f4c81;
+            background: #f8fff8;
+        }
+        .upload-icon {
+            font-size: 40px;
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+        .upload-text {
+            font-size: 14px;
+            color: #666;
+        }
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .form-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <!-- 应用Logo和名称 -->
+        <div class="logo-section">
+            <div class="logo">
+                <i class="fas fa-hand-holding-usd"></i>
+            </div>
+            <div class="app-name">安心贷</div>
+            <div class="app-slogan">安全快捷的借贷平台</div>
+        </div>
+
+        <!-- 注册表单 -->
+        <div class="register-form">
+            <div class="form-title">用户注册</div>
+            
+            <!-- 用户名输入 -->
+            <div class="form-group">
+                <label for="username" class="form-label">用户名</label>
+                <input type="text" id="username" class="form-input" placeholder="请设置用户名" maxlength="50">
+                <div class="form-hint">最大50个字符</div>
+            </div>
+
+            <!-- 手机号输入 -->
+            <div class="form-group">
+                <label for="phone" class="form-label">手机号码</label>
+                <div class="phone-input-group">
+                    <div class="country-code">+86</div>
+                    <input type="tel" id="phone" class="phone-input" placeholder="请输入手机号码" maxlength="11">
+                </div>
+            </div>
+
+            <!-- 验证码输入 -->
+            <div class="form-group">
+                <label for="code" class="form-label">验证码</label>
+                <div class="code-input-group">
+                    <input type="text" id="code" class="code-input" placeholder="请输入验证码" maxlength="6">
+                    <button type="button" id="getCodeBtn" class="get-code-btn">获取验证码</button>
+                </div>
+            </div>
+
+            <!-- 邮箱输入 -->
+            <div class="form-group">
+                <label for="email" class="form-label">邮箱地址</label>
+                <input type="email" id="email" class="form-input" placeholder="请输入邮箱地址" maxlength="50">
+                <div class="form-hint">最大50个字符</div>
+            </div>
+
+            <!-- 真实姓名 -->
+            <div class="form-group">
+                <label for="realName" class="form-label">真实姓名</label>
+                <input type="text" id="realName" class="form-input" placeholder="请输入真实姓名" maxlength="50">
+                <div class="form-hint">最大50个字符</div>
+            </div>
+
+            <!-- 身份证号 -->
+            <div class="form-group">
+                <label for="idCard" class="form-label">身份证号</label>
+                <input type="text" id="idCard" class="form-input" placeholder="请输入18位身份证号" maxlength="18">
+                <div class="form-hint">请输入18位身份证号码</div>
+            </div>
+
+            <!-- 人脸照片上传 -->
+            <div class="form-group">
+                <label class="form-label">人脸照片</label>
+                <div class="upload-container">
+                    <input type="file" id="facePhoto" class="file-input" accept="image/*">
+                    <i class="fas fa-user upload-icon"></i>
+                    <div class="upload-text">点击上传人脸照片</div>
+                </div>
+                <div class="form-hint">请上传清晰的人脸正面照片</div>
+            </div>
+
+            <!-- 设置密码 -->
+            <div class="form-group">
+                <label for="password" class="form-label">设置密码</label>
+                <input type="password" id="password" class="form-input" placeholder="请设置登录密码" maxlength="36">
+                <div class="form-hint">不超过36位字符</div>
+            </div>
+
+            <!-- 注册按钮 -->
+            <button type="button" id="registerBtn" class="register-btn">注册</button>
+
+            <!-- 用户协议 -->
+            <div class="agreement">
+                注册即表示您同意<a href="#">《用户协议》</a>和<a href="#">《隐私政策》</a>
+            </div>
+
+            <!-- 登录链接 -->
+            <div class="login-link">
+                已有账号？<a href="login.html" class="login-btn-link">立即登录</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const getCodeBtn = document.getElementById('getCodeBtn');
+        const phoneInput = document.getElementById('phone');
+        const codeInput = document.getElementById('code');
+        const registerBtn = document.getElementById('registerBtn');
+        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
+        const realNameInput = document.getElementById('realName');
+        const idCardInput = document.getElementById('idCard');
+        const facePhotoInput = document.getElementById('facePhoto');
+        const passwordInput = document.getElementById('password');
+
+        // 验证手机号
+        function isValidPhone(phone) {
+            return /^1[3-9]\d{9}$/.test(phone);
+        }
+
+        // 验证邮箱
+        function isValidEmail(email) {
+            return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email);
+        }
+
+        // 验证身份证号
+        function isValidIdCard(idCard) {
+            // 简单验证，实际应用中可以使用更复杂的验证规则
+            return /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(idCard);
+        }
+
+        // 手机号输入事件
+        phoneInput.addEventListener('input', function() {
+            // 限制只能输入数字
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // 验证码输入事件
+        codeInput.addEventListener('input', function() {
+            // 限制只能输入数字
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // 获取验证码按钮点击事件
+        getCodeBtn.addEventListener('click', function() {
+            const phone = phoneInput.value.trim();
+            
+            if (!isValidPhone(phone)) {
+                alert('请输入正确的手机号码');
+                return;
+            }
+
+            // 倒计时60秒
+            let countdown = 60;
+            getCodeBtn.disabled = true;
+            getCodeBtn.textContent = `${countdown}秒后重试`;
+            
+            const timer = setInterval(() => {
+                countdown--;
+                getCodeBtn.textContent = `${countdown}秒后重试`;
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    getCodeBtn.disabled = false;
+                    getCodeBtn.textContent = '获取验证码';
+                }
+            }, 1000);
+
+            // 调用获取验证码接口
+            const requestOptions = {
+                method: 'POST',
+                redirect: 'follow'
+            };
+            
+            fetch("http://127.0.0.1:45333/user/verifyCode?phone=" + phone, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    console.log('验证码发送结果:', result);
+                    if (result.success) {
+                        alert(`验证码已发送至 ${phone}，请注意查收`);
+                    } else {
+                        alert('验证码发送失败，请稍后重试');
+                        clearInterval(timer);
+                        getCodeBtn.disabled = false;
+                        getCodeBtn.textContent = '获取验证码';
+                    }
+                })
+                .catch(error => {
+                    console.error('获取验证码错误:', error);
+                    alert('验证码发送失败，请稍后重试');
+                    clearInterval(timer);
+                    getCodeBtn.disabled = false;
+                    getCodeBtn.textContent = '获取验证码';
+                });
+        });
+
+        // 注册按钮点击事件
+        registerBtn.addEventListener('click', function() {
+            // 获取表单数据
+            const username = usernameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const code = codeInput.value.trim();
+            const email = emailInput.value.trim();
+            const realName = realNameInput.value.trim();
+            const idCard = idCardInput.value.trim();
+            const password = passwordInput.value;
+            
+            // 表单验证
+            if (!username) {
+                alert('请输入用户名');
+                return;
+            }
+            
+            if (!isValidPhone(phone)) {
+                alert('请输入正确的手机号码');
+                return;
+            }
+            
+            if (code.length !== 6 || !/^\d{6}$/.test(code)) {
+                alert('请输入6位数字验证码');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                alert('请输入正确的邮箱地址');
+                return;
+            }
+            
+            if (!realName) {
+                alert('请输入真实姓名');
+                return;
+            }
+            
+            if (!isValidIdCard(idCard)) {
+                alert('请输入正确的18位身份证号');
+                return;
+            }
+            
+            if (!password) {
+                alert('请设置密码');
+                return;
+            }
+            
+            if (!facePhotoInput.files || !facePhotoInput.files[0]) {
+                alert('请上传人脸照片');
+                return;
+            }
+
+            // 构建FormData对象
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('pwd', password);
+            formData.append('phone', phone);
+            formData.append('email', email);
+            formData.append('real_name', realName);
+            formData.append('id_card', idCard);
+            formData.append('face', facePhotoInput.files[0]);
+            
+            // 显示加载状态
+            registerBtn.disabled = true;
+            registerBtn.textContent = '注册中...';
+            
+            // 调用注册接口
+            const requestOptions = {
+                method: 'POST',
+                body: formData,
+                redirect: 'follow'
+            };
+            
+            fetch("http://127.0.0.1:45333/user/register", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    console.log('注册结果:', result);
+                    if (result.success) {
+                        alert('注册成功！');
+                        // 注册成功后跳转到登录页面
+                        window.location.href = 'login.html';
+                    } else {
+                        alert('注册失败: ' + (result.errCode || '未知错误'));
+                        registerBtn.disabled = false;
+                        registerBtn.textContent = '注册';
+                    }
+                })
+                .catch(error => {
+                    console.error('注册错误:', error);
+                    alert('注册失败，请稍后重试');
+                    registerBtn.disabled = false;
+                    registerBtn.textContent = '注册';
+                });
+        });
+    </script>
+</body>
+</html>
