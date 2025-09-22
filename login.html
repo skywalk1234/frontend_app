@@ -116,6 +116,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            width: 100%;
         }
         .code-input {
             flex: 1;
@@ -125,6 +126,8 @@
             border-radius: 24px;
             font-size: 16px;
             transition: all 0.3s ease;
+            box-sizing: border-box;
+            min-width: 0; /* 防止flex子元素溢出容器 */
         }
         .code-input:focus {
             outline: none;
@@ -132,7 +135,7 @@
             box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
         }
         .get-code-btn {
-            padding: 0 20px;
+            padding: 0 15px; /* 减少内边距，使按钮更紧凑 */
             height: 48px;
             background: linear-gradient(135deg, #4CAF50, #2E7D32);
             color: white;
@@ -143,6 +146,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             white-space: nowrap;
+            box-sizing: border-box;
+            min-width: 80px; /* 设置最小宽度，确保文字不会被截断 */
         }
         .get-code-btn:hover:not(:disabled) {
             background: linear-gradient(135deg, #45a049, #27662a);
