@@ -169,9 +169,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // 显示加载状态
         registerBtn.disabled = true;
         registerBtn.textContent = '注册中...';
-
+        console.log("data{}", data)
         // 发送POST请求
-        fetch('http://127.0.0.1:4523/m1/7075098-6796254-default/user/register', {
+        fetch('http://115.190.40.44:45333/user/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
