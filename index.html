@@ -97,6 +97,59 @@
         </a>
     </div>
 
+    <!-- 悬浮登录窗 -->
+    <div id="loginFloatingWindow" style="
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 320px;
+        background: linear-gradient(135deg, rgba(15, 76, 129, 0.95), rgba(26, 58, 95, 0.95));
+        border-radius: 20px;
+        padding: 30px;
+        color: white;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        animation: fadeInUp 0.5s ease-out;
+    ">
+        <h3 style="font-size: 22px; margin-bottom: 20px; font-weight: bold;">欢迎使用安心贷</h3>
+        <p style="font-size: 14px; margin-bottom: 30px; opacity: 0.9;">请登录后享受完整服务</p>
+        <button id="oneClickLogin" style="
+            width: 100%;
+            height: 50px;
+            background: white;
+            color: #0f4c81;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        ">一键登录</button>
+        <div id="otherLogin" style="
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            text-decoration: underline;
+        ">其他方式登录</div>
+    </div>
+
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+    </style>
+
     <script>
         // 时间自动更新
         function updateTime() {
@@ -109,24 +162,33 @@
             document.getElementById('currentTime').textContent = timeString;
         }
         
+        // 检查登录状态
+        function checkLoginStatus() {
+            // 从localStorage获取登录状态
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            
+            if (isLoggedIn) {
+                // 如果用户已登录，则隐藏悬浮登录窗
+                const loginWindow = document.getElementById('loginFloatingWindow');
+                if (loginWindow) {
+                    loginWindow.style.display = 'none';
+                }
+            }
+        }
+        
         // 初始化时间并设置定时器
         updateTime();
         setInterval(updateTime, 60000);
+        
+        // 检查登录状态
+        checkLoginStatus();
         
         // 为按钮添加点击事件
         document.querySelectorAll('.btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 // 这里可以添加点击事件处理逻辑
-                // 例如跳转到贷款详情页面
-                const action = this.getAttribute('data-action');
-                switch(action){
-                    case 'apply_amount':
-                        window.location.href = './实名认证.html';
-                        break;
-                    default:
-                        // window.location.href = 'loan.html';
-                        break;
-                }
+                // 所有申请按钮都跳转到实名认证页面
+                window.location.href = './实名认证.html';
                 console.log('Button clicked:', this.textContent);
             });
         });
@@ -142,6 +204,15 @@
                 this.classList.add('active');
                 // 导航到相应页面（通过href属性已经实现）
             });
+        });
+
+        // 悬浮窗按钮点击事件
+        document.getElementById('oneClickLogin').addEventListener('click', function() {
+            window.location.href = 'login.html';
+        });
+
+        document.getElementById('otherLogin').addEventListener('click', function() {
+            window.location.href = 'login.html';
         });
     </script>
 </body>

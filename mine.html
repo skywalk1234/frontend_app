@@ -115,13 +115,45 @@
             document.getElementById('currentTime').textContent = timeString;
         }
         
+        // 根据登录状态更新用户数据
+        function updateUserDataBasedOnLogin() {
+            // 从localStorage获取登录状态和用户信息
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            
+            if (isLoggedIn && userInfo) {
+                // 更新用户信息
+                const userPhoneElement = document.querySelector('.user-phone');
+                
+                if (userInfo.phone) {
+                    // 手机号登录
+                    const maskedPhone = userInfo.phone.substring(0, 3) + '****' + userInfo.phone.substring(7);
+                    userPhoneElement.textContent = maskedPhone;
+                } else if (userInfo.email) {
+                    // 邮箱登录
+                    const emailParts = userInfo.email.split('@');
+                    const maskedEmail = emailParts[0].substring(0, 3) + '****@' + emailParts[1];
+                    userPhoneElement.textContent = maskedEmail;
+                }
+                
+                // 根据登录状态可以更新其他数据，例如额度、余额等
+                // 这里简单示例，实际应用中可能需要从服务器获取最新数据
+            } else {
+                // 用户未登录，可以跳转到登录页面
+                // window.location.href = 'login1.html';
+            }
+        }
+        
         // 初始化时间并设置定时器
         updateTime();
         setInterval(updateTime, 60000);
         
+        // 更新用户数据
+        updateUserDataBasedOnLogin();
+        
         // 实名认证按钮点击事件
         document.getElementById('realnameBtn').addEventListener('click', function() {
-            window.location.href = 'realname.html';
+            window.location.href = '实名认证.html';
         });
         
         // 提现按钮点击事件
@@ -134,13 +166,18 @@
             item.addEventListener('click', function() {
                 const functionName = this.querySelector('.function-name').textContent;
                 if (functionName === '实名认证') {
-                    window.location.href = 'realname.html';
+                    window.location.href = '实名认证.html';
                 } else if (functionName === '退出登录') {
                     // 模拟退出登录
                     if (confirm('确定要退出登录吗？')) {
+                        // 清除登录状态
+                        localStorage.removeItem('userLoggedIn');
+                        localStorage.removeItem('loginMethod');
+                        localStorage.removeItem('userInfo');
+                        
                         alert('已退出登录');
-                        // 可以跳转到登录页面
-                        // window.location.href = 'login.html';
+                        // 跳转到登录页面
+                        window.location.href = 'login1.html';
                     }
                 } else {
                     alert(`即将跳转到${functionName}页面`);

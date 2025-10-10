@@ -218,15 +218,17 @@
         <!-- 身份证上传区域 -->
         <div class="id-upload">
             <div class="upload-container">
-                <div class="upload-box">
+                <div class="upload-box" style="position: relative;">
+                    <input type="file" class="file-input" accept="image/*" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
                     <div class="upload-icon">
-                        <i class="fas fa-camera"></i>
+                        <i class="fas fa-id-card"></i>
                     </div>
                     <div class="upload-text">识别人像面</div>
                 </div>
-                <div class="upload-box">
+                <div class="upload-box" style="position: relative;">
+                    <input type="file" class="file-input" accept="image/*" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
                     <div class="upload-icon">
-                        <i class="fas fa-camera"></i>
+                        <i class="fas fa-id-card"></i>
                     </div>
                     <div class="upload-text">识别国徽面</div>
                 </div>
@@ -283,14 +285,47 @@
             });
         });
         
+        // 文件上传预览
+        const fileInputs = document.querySelectorAll('.file-input');
+        fileInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const uploadBox = this.parentElement;
+                    const uploadIcon = uploadBox.querySelector('.upload-icon i');
+                    const uploadText = uploadBox.querySelector('.upload-text');
+                    
+                    uploadIcon.classList.remove('fa-id-card');
+                    uploadIcon.classList.add('fa-check-circle');
+                    uploadIcon.style.color = '#0f4c81';
+                    uploadText.textContent = '已上传：' + this.files[0].name;
+                    uploadText.style.color = '#0f4c81';
+                    uploadBox.style.borderColor = '#0f4c81';
+                }
+            });
+        });
+        
         // 下一步按钮点击效果
-          document.querySelector('.next-btn').addEventListener('click', function() {
-              this.style.backgroundColor = '#1a3a5f';
-              setTimeout(() => {
-                  this.style.backgroundColor = '#0f4c81';
-                  alert('下一步操作');
-              }, 300);
-          });
+        document.querySelector('.next-btn').addEventListener('click', function() {
+            this.style.backgroundColor = '#1a3a5f';
+            setTimeout(() => {
+                this.style.backgroundColor = '#0f4c81';
+                // 预留接口：提交实名认证信息（实际项目需处理文件上传）
+                alert('实名认证信息已提交，待审核（预留接口）');
+                // 审核后跳转回“我的”页面
+                window.location.href = 'mine.html';
+            }, 300);
+        });
+        
+        // 更新当前时间
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.querySelector('.time').textContent = `${hours}:${minutes}`;
+        }
+        
+        updateTime();
+        setInterval(updateTime, 60000);
     </script>
 </body>
 </html>

@@ -318,9 +318,9 @@
                     <i class="fab fa-qq"></i>
                     <span>QQ</span>
                 </div>
-                <div class="quick-method alipay">
-                    <i class="fab fa-alipay"></i>
-                    <span>支付宝</span>
+                <div class="quick-method email">
+                    <i class="fas fa-envelope"></i>
+                    <span>邮箱</span>
                 </div>
             </div>
         </div>
@@ -395,8 +395,14 @@
                 return;
             }
 
-            // 模拟登录成功，跳转到主页
+            // 模拟登录成功
             console.log(`手机号 ${phone} 登录成功，验证码 ${code}`);
+            
+            // 设置登录状态
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('loginMethod', 'phone');
+            localStorage.setItem('userInfo', JSON.stringify({phone: phone}));
+            
             alert('登录成功！');
             window.location.href = 'index.html';
         });
@@ -405,7 +411,11 @@
         document.querySelectorAll('.quick-method').forEach(method => {
             method.addEventListener('click', function() {
                 const type = this.querySelector('span').textContent;
-                alert(`暂未开放${type}登录功能`);
+                if (type === '邮箱') {
+                    window.location.href = 'login_email.html';
+                } else {
+                    alert(`暂未开放${type}登录功能`);
+                }
             });
         });
     </script>
