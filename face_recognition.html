@@ -347,7 +347,7 @@
     function submitRecognition() {
         // 这里添加实际提交逻辑
         alert('人脸识别信息已提交（预留接口）');
-
+        localStorage.setItem('is_face_rec', 'true')
         // 跳转到结果页面
         window.location.href = 'mine.html';
     }
