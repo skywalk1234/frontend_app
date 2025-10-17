@@ -165,8 +165,20 @@
         document.querySelectorAll('.function-item').forEach(item => {
             item.addEventListener('click', function() {
                 const functionName = this.querySelector('.function-name').textContent;
-                if (functionName === '实名认证') {
+                if (functionName === '我的账单') {
+                    window.location.href = 'my_bills.html';
+                } else if (functionName === '交易记录') {
+                    window.location.href = 'transaction_history.html';
+                } else if (functionName === '实名认证') {
                     window.location.href = '实名认证.html';
+                } else if (functionName === '银行卡') {
+                    window.location.href = 'bank_cards.html';
+                } else if (functionName === '帮助中心') {
+                    window.location.href = 'help_center.html';
+                } else if (functionName === '在线客服') {
+                    window.location.href = 'online_service.html';
+                } else if (functionName === '设置') {
+                    window.location.href = 'settings.html';
                 } else if (functionName === '退出登录') {
                     // 模拟退出登录
                     if (confirm('确定要退出登录吗？')) {
@@ -179,8 +191,6 @@
                         // 跳转到登录页面
                         window.location.href = 'login1.html';
                     }
-                } else {
-                    alert(`即将跳转到${functionName}页面`);
                 }
             });
         });
