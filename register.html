@@ -291,46 +291,51 @@
                 <input type="password" id="confirmPassword" class="form-input" placeholder="请再次输入密码">
             </div>
 
-            <!-- 短信验证码 -->
-            <div class="form-group">
-                <label class="form-label" for="smsCode">短信验证码</label>
-                <div class="input-with-button">
-                    <input type="text" id="smsCode" class="form-input" placeholder="请输入验证码" maxlength="6">
-                    <button type="button" class="sms-btn">获取验证码</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 个人信息部分 -->
-        <div class="form-section">
-            <div class="form-section-title">个人信息</div>
-
-            <!-- 真实姓名 -->
-            <div class="form-group">
-                <label class="form-label" for="realName">真实姓名</label>
-                <input type="text" id="realName" class="form-input" placeholder="请输入您的真实姓名" maxlength="50">
-                <div class="field-info">最大限制50个字符</div>
-            </div>
-
-            <!-- 身份证号 -->
-            <div class="form-group">
-                <label class="form-label" for="idCard">身份证号</label>
-                <input type="text" id="idCard" class="form-input" placeholder="请输入18位身份证号码" maxlength="18">
-                <div class="field-info">固定18位长度</div>
-            </div>
-
-            <!-- 电子邮箱 -->
+            <!--电子邮箱-->
             <div class="form-group">
                 <label class="form-label" for="email">电子邮箱</label>
                 <input type="email" id="email" class="form-input" placeholder="请输入常用邮箱" maxlength="50">
                 <div class="field-info">最大支持50个字符</div>
             </div>
+
+            <!-- 邮箱验证码 -->
+            <div class="form-group">
+                <label class="form-label" for="smsCode">邮箱验证码</label>
+                <div class="input-with-button">
+                    <input type="text" id="smsCode" class="form-input" placeholder="请输入验证码" maxlength="6">
+                    <button type="button" class="sms-btn">获取验证码</button>
+                </div>
+            </div>
+            <!--自定义用户名-->
+            <div class="form-group">
+                <label class="form-label" for="UserName">用户名</label>
+                <input type="text" id="UserName" class="form-input" placeholder="起一个昵称吧" maxlength="50">
+                <div class="field-info">最大限制50个字符</div>
+            </div>
         </div>
 
-        <!-- 实名认证按钮 -->
-        <button type="button" class="realname-btn" id="realnameAuth">
-            <i class="fas fa-user-check"></i> 实名认证（人脸识别）
-        </button>
+<!--        &lt;!&ndash; 个人信息部分 &ndash;&gt;-->
+<!--        <div class="form-section">-->
+<!--            <div class="form-section-title">个人信息</div>-->
+
+<!--            &lt;!&ndash; 真实姓名 &ndash;&gt;-->
+
+
+<!--            &lt;!&ndash; 身份证号 &ndash;&gt;-->
+<!--            <div class="form-group">-->
+<!--                <label class="form-label" for="idCard">身份证号</label>-->
+<!--                <input type="text" id="idCard" class="form-input" placeholder="请输入18位身份证号码" maxlength="18">-->
+<!--                <div class="field-info">固定18位长度</div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; 电子邮箱 &ndash;&gt;-->
+
+<!--        </div>-->
+
+<!--        &lt;!&ndash; 实名认证按钮 &ndash;&gt;-->
+<!--        <button type="button" class="realname-btn" id="realnameAuth">-->
+<!--            <i class="fas fa-user-check"></i> 实名认证（人脸识别）-->
+<!--        </button>-->
 
         <!-- 注册按钮 -->
         <button type="button" class="register-btn" id="registerBtn">注册</button>

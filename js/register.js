@@ -19,25 +19,25 @@ document.addEventListener('DOMContentLoaded', function() {
     registerBtn.addEventListener('click', handleRegister);
 
     // 实名认证按钮点击事件
-    realnameAuthBtn.addEventListener('click', function() {
-        alert('实名认证（人脸识别）功能待接入');
-        // 模拟实名认证成功
-        faceVerified = true;
-        faceData = '模拟人脸数据';
-        this.innerHTML = '<i class="fas fa-check-circle"></i> 已实名认证';
-        this.style.background = 'linear-gradient(135deg, #0f4c81, #1a3a5f)';
-    });
+    // realnameAuthBtn.addEventListener('click', function() {
+    //     alert('实名认证（人脸识别）功能待接入');
+    //     // 模拟实名认证成功
+    //     faceVerified = true;
+    //     faceData = '模拟人脸数据';
+    //     this.innerHTML = '<i class="fas fa-check-circle"></i> 已实名认证';
+    //     this.style.background = 'linear-gradient(135deg, #0f4c81, #1a3a5f)';
+    // });
 
     // 获取验证码按钮点击事件
     smsBtn.addEventListener('click', function() {
-        const phone = document.getElementById('phone').value;
-        if (!validatePhone(phone)) {
-            alert('请输入正确的11位手机号码');
+        const email = document.getElementById('email').value;
+        if (!validateEmail(email)) {
+            alert('请输入正确的邮箱');
             return;
         }
-
+        sendEmailCode(email)
         // 这里应该调用发送验证码的API
-        alert(`验证码已发送到手机号: ${phone}`);
+        // alert(`验证码已发送到邮箱，请注意查收: ${phone}`);
 
         // 倒计时效果
         let countdown = 60;
@@ -50,33 +50,58 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.textContent = '获取验证码';
                 this.disabled = false;
             }
-        }, 10);
+        }, 100);
     });
-
+    // 请求后端发送邮箱验证码的函数
+    function sendEmailCode(email) {
+        fetch('http://115.190.40.44:45333/user/registerVerifyCode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                code: email
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('验证码已发送到邮箱，请注意查收: ' + email);
+                    // console.log(data);
+                    localStorage.setItem('token', "ksdfjkejfkjskld");
+                } else {
+                    alert('验证码发送失败：' + data.message);
+                    console.log(data.message);
+                }
+            })
+    }
     // 注册处理函数
     function handleRegister() {
         // 获取表单数据
         const formData = getFormData();
-
+        console.log(formData)
         // 验证表单数据
         const isValid = validateForm(formData);
         if (!isValid) return;
 
         // 检查是否完成实名认证
-        if (!faceVerified) {
-            alert('请先完成实名认证');
-            return;
-        }
+        // if (!faceVerified) {
+        //     alert('请先完成实名认证');
+        //     return;
+        // }
 
         // 准备提交数据
         const requestData = {
-            email: formData.email,
-            face: faceData,
-            id_card: formData.idCard,
-            phone: formData.phone,
+            // email: formData.email,
+            // face: faceData,
+            // id_card: formData.idCard,
+            username: formData.username,
             pwd: formData.password,
-            real_name: formData.realName,
-            username: formData.phone // 使用手机号作为用户名
+            phone: formData.phone,
+            email: formData.email,
+            code: formData.smsCode,
+            token: localStorage.getItem('token'),
+            // username: formData.phone // 使用手机号作为用户名
         };
 
         // 发送注册请求
@@ -90,8 +115,8 @@ document.addEventListener('DOMContentLoaded', function() {
             password: document.getElementById('password').value.trim(),
             confirmPassword: document.getElementById('confirmPassword').value.trim(),
             smsCode: document.getElementById('smsCode').value.trim(),
-            realName: document.getElementById('realName').value.trim(),
-            idCard: document.getElementById('idCard').value.trim(),
+            username: document.getElementById('UserName').value.trim(),
+            // idCard: document.getElementById('idCard').value.trim(),
             email: document.getElementById('email').value.trim()
         };
     }
@@ -123,17 +148,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // 验证真实姓名
-        if (!data.realName) {
-            alert('请输入真实姓名');
-            return false;
-        }
-
-        // 验证身份证号
-        if (!validateIdCard(data.idCard)) {
-            alert('请输入正确的18位身份证号码');
-            return false;
-        }
-
+        // if (!data.realName) {
+        //     alert('请输入真实姓名');
+        //     return false;
+        // }
+        //
+        // // 验证身份证号
+        // if (!validateIdCard(data.idCard)) {
+        //     alert('请输入正确的18位身份证号码');
+        //     return false;
+        // }
+        //
         // 验证邮箱（可选）
         if (data.email && !validateEmail(data.email)) {
             alert('请输入有效的电子邮箱');
@@ -155,9 +180,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 验证身份证号（简单验证）
-    function validateIdCard(idCard) {
-        return /^\d{17}[\dXx]$/.test(idCard);
-    }
+    // function validateIdCard(idCard) {
+    //     return /^\d{17}[\dXx]$/.test(idCard);
+    // }
 
     // 验证邮箱
     function validateEmail(email) {
@@ -169,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 显示加载状态
         registerBtn.disabled = true;
         registerBtn.textContent = '注册中...';
-        console.log("data{}", data)
+        console.log("最终要提交的表单{}", data)
         // 发送POST请求
         fetch('http://115.190.40.44:45333/user/register', {
             method: 'POST',
@@ -183,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.success) {
                     alert('注册成功！');
                     // 注册成功后可以跳转到登录页面
-                    window.location.href = 'login.html';
+                    // window.location.href = 'login.html';
                 } else {
                     alert(`注册失败: ${data.errCode || '未知错误'}`);
                 }
