@@ -538,29 +538,31 @@
 
         // 这里可以添加实际的提交逻辑，如AJAX请求等
         // 例如：
-        // const formData = {
-        //     amount: amount,
-        //     term: term,
-        //     bank: bank,
-        //     cardNumber: cardNumber,
-        //     // 其他必要字段...
-        // };
-        // fetch('/api/loan/apply', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(formData)
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //     if (data.success) {
-        //         alert('申请提交成功！');
-        //         window.location.href = 'loan-status.html?id=' + data.loanId;
-        //     } else {
-        //         alert('提交失败: ' + data.message);
-        //     }
-        // });
+        const formData = {
+            productID: 1,
+            amount: amount,
+            termCount: term,
+            card_id: cardNumber,
+            face: "good_morning.png",
+            // 其他必要字段...
+        };
+        fetch('http://115.190.40.44:45333/user/verifyCode?code=${code}', {
+            method: 'POST',
+            headers: {
+                ''
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('申请提交成功！');
+                window.location.href = 'loan-status.html?id=' + data.loanId;
+            } else {
+                alert('提交失败: ' + data.message);
+            }
+        });
     }
 </script>
 </body>
