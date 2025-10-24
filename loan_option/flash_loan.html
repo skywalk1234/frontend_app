@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>闪电贷申请 - 金融借贷平台</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="../js/messageUtils.js"></script>
+    <!-- 在 </body> 标签前添加 -->
+    <script src="../js/refreshToken.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -286,6 +290,7 @@
             }
         }
     </style>
+
 </head>
 <body>
 <!-- 头部 -->
@@ -421,19 +426,19 @@
 
 <!-- 底部导航 -->
 <div class="nav">
-    <a href="index.html" class="nav-item">
+    <a href="../index.html" class="nav-item">
         <i class="fas fa-home"></i>
         <span>首页</span>
     </a>
-    <a href="loan.html" class="nav-item active">
+    <a href="../loan.html" class="nav-item active">
         <i class="fas fa-money-bill-wave"></i>
         <span>贷款</span>
     </a>
-    <a href="message.html" class="nav-item">
+    <a href="../message.html" class="nav-item">
         <i class="fas fa-bell"></i>
         <span>消息</span>
     </a>
-    <a href="mine.html" class="nav-item">
+    <a href="../mine.html" class="nav-item">
         <i class="fas fa-user"></i>
         <span>我的</span>
     </a>
@@ -534,7 +539,7 @@
         }
 
         // 模拟提交成功
-        alert('申请提交成功！我们将尽快处理您的贷款申请。');
+        // alert('申请提交成功！我们将尽快处理您的贷款申请。');
 
         // 这里可以添加实际的提交逻辑，如AJAX请求等
         // 例如：
@@ -546,23 +551,61 @@
             face: "good_morning.png",
             // 其他必要字段...
         };
-        fetch('http://115.190.40.44:45333/user/verifyCode?code=${code}', {
-            method: 'POST',
-            headers: {
+        const authDataStr = localStorage.getItem('authData');
+        const authData = JSON.parse(authDataStr);
+            // return authData.accessToken;
 
-                'Content-Type': 'application/json',
-            },
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", authData.accessToken);
+        myHeaders.append("Content-Type", "application/json");
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
             body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('申请提交成功！');
-                window.location.href = 'loan-status.html?id=' + data.loanId;
-            } else {
-                alert('提交失败: ' + data.message);
-            }
-        });
+        };
+        const messageData = {
+            time: new Date().toLocaleTimeString(),
+            title: "借款申请提交",
+            content: "您的借款申请已成功提交，正在审核中",
+            bgColor: "#E3F2FD"
+        };
+        function addNewMessage() {
+            const channel = new BroadcastChannel('loan_messages');
+            console.log("准备广播新增消息操作")
+            channel.postMessage({
+                type: 'newLoanApply'
+            });
+            channel.close();
+        }
+
+
+
+        fetch("http://115.190.40.44:45333/loan/loan?productID=" + formData.productID + "&amount=" + formData.amount + "&termCount=" + formData.termCount + "&card_id=" + formData.card_id + "&face=" + formData.face, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result);
+                // 解析响应结果来判断是否成功
+                try {
+                    const data = JSON.parse(result);
+                    if (data.success) {
+                        alert('申请提交成功！');
+                        // let message = MessageUtils.generateApplyMessage();
+                        addNewMessage();
+                        // window.location.href = 'loan-status.html?id=' + data.loanId;
+                    } else {
+                        alert('提交失败: ' + data.message);
+                    }
+                } catch (e) {
+                    alert('提交成功！');
+                    // 如果无法解析JSON，则假设请求成功
+                }
+            })
+            .catch(error => {
+                console.log('error', error);
+                alert('网络错误，请稍后重试');
+            });
     }
 </script>
 </body>
