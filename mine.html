@@ -150,7 +150,16 @@
         
         // 更新用户数据
         updateUserDataBasedOnLogin();
-        
+
+        // 根据人脸识别状态控制“去实名认证”按钮显示
+        (function() {
+            const realnameBtn = document.getElementById('realnameBtn');
+            if (realnameBtn) {
+                const isFaceRecDone = localStorage.getItem('is_face_rec') === 'true';
+                realnameBtn.style.display = isFaceRecDone ? 'none' : '';
+            }
+        })();
+
         // 实名认证按钮点击事件
         document.getElementById('realnameBtn').addEventListener('click', function() {
             window.location.href = '实名认证.html';
