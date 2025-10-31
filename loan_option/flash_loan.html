@@ -577,7 +577,9 @@
             channel.postMessage({
                 type: 'newLoanApply'
             });
-            channel.close();
+            setTimeout(() => {
+                channel.close();
+            }, 100);
         }
 
 
@@ -591,9 +593,14 @@
                     const data = JSON.parse(result);
                     if (data.success) {
                         alert('申请提交成功！');
+                        console.log("Current path:", window.location.pathname);
                         // let message = MessageUtils.generateApplyMessage();
+                        // setTimeout(() => {
+                            // 发送广播代码
                         addNewMessage();
-                        // window.location.href = 'loan-status.html?id=' + data.loanId;
+                        // }, 1000); // 500ms延迟
+
+                        window.location.href = "../message.html";
                     } else {
                         alert('提交失败: ' + data.message);
                     }

@@ -414,13 +414,16 @@
     // 初始化渲染消息
     renderMessages();
     const messageChannel = new BroadcastChannel('loan_messages');
-
-    messageChannel.addEventListener('message', (event) => {
-        console.log('收到消息：', event.data)
-        if (event.data.type === 'newLoanApply') {
-            const newMessage = generateApplyMessage();
-            addMessageElement(newMessage.time, newMessage.title, newMessage.content, newMessage.bgColor);
-        }
+    // 收到消息的广播
+    document.addEventListener('DOMContentLoaded', function() {
+        const messageChannel = new BroadcastChannel('loan_messages');
+        messageChannel.addEventListener('message', (event) => {
+            console.log('收到消息：', event.data);
+            if (event.data.type === 'newLoanApply') {
+                const newMessage = generateApplyMessage();
+                addMessageElement(newMessage.time, newMessage.title, newMessage.content, newMessage.bgColor);
+            }
+        });
     });
 
     function generateNewMessage(data) {

@@ -54,21 +54,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     // 请求后端发送邮箱验证码的函数
     function sendEmailCode(email) {
-        fetch('http://115.190.40.44:45333/user/registerVerifyCode', {
+        fetch('http://115.190.40.44:45444/user/registerVerifyCode', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                code: email
+                email: email
             })
         })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     alert('验证码已发送到邮箱，请注意查收: ' + email);
-                    // console.log(data);
-                    localStorage.setItem('token', "ksdfjkejfkjskld");
+                    console.log(data);
+                    // console.log(data.token)
+                    localStorage.setItem('token', data.token);
                 } else {
                     alert('验证码发送失败：' + data.message);
                     console.log(data.message);
@@ -196,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
         registerBtn.textContent = '注册中...';
         console.log("最终要提交的表单{}", data)
         // 发送POST请求
-        fetch('http://115.190.40.44:45333/user/register', {
+        fetch('http://115.190.40.44:45444/user/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
