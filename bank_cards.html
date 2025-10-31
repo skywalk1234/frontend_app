@@ -115,58 +115,66 @@
             <span>为了您的资金安全，请确保绑定本人名下的银行卡</span>
         </div>
 
-        <!-- 银行卡列表 -->
-        <div class="card-item">
-            <div class="card-bank">
-                <i class="fas fa-university" style="margin-right: 10px;"></i>中国工商银行
-            </div>
-            <div class="card-number">6222 **** **** 3620</div>
-            <div class="card-info">
-                <div>储蓄卡</div>
-                <div>尾号3620</div>
-            </div>
-            <div class="card-actions">
-                <button class="card-action-btn">
-                    <i class="fas fa-edit"></i> 修改
-                </button>
-                <button class="card-action-btn">
-                    <i class="fas fa-trash-alt"></i> 解绑
-                </button>
-            </div>
-        </div>
+        <!-- 银行卡列表（动态渲染） -->
+        <div id="cardsList"></div>
 
-        <div class="card-item" style="background: linear-gradient(135deg, #6a9be9, #7aaaf5);">
-            <div class="card-bank">
-                <i class="fas fa-university" style="margin-right: 10px;"></i>中国建设银行
-            </div>
-            <div class="card-number">6217 **** **** 8899</div>
-            <div class="card-info">
-                <div>储蓄卡</div>
-                <div>尾号8899</div>
-            </div>
-            <div class="card-actions">
-                <button class="card-action-btn">
-                    <i class="fas fa-edit"></i> 修改
-                </button>
-                <button class="card-action-btn">
-                    <i class="fas fa-trash-alt"></i> 解绑
-                </button>
-            </div>
+        <!-- 空状态 -->
+        <div id="emptyState" class="card" style="text-align:center; color:#666; display:none;">
+            <div style="margin:10px 0;">暂无已绑定银行卡</div>
+            <div style="font-size:12px;">点击下方“添加银行卡”进行绑定</div>
         </div>
 
         <!-- 添加银行卡按钮 -->
-        <button class="add-card-btn">
+        <button class="add-card-btn" id="openAddCardModal">
             <i class="fas fa-plus"></i>
             <span>添加银行卡</span>
         </button>
+
+        <!-- 添加银行卡弹窗 -->
+        <div id="addCardModal" style="display:none; position:fixed; left:0; top:0; right:0; bottom:0; background:rgba(0,0,0,0.4); align-items:center; justify-content:center;">
+            <div style="background:#fff; border-radius:12px; padding:16px; width:90%; max-width:420px;">
+                <div style="font-size:16px; font-weight:bold; margin-bottom:10px;">添加银行卡</div>
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                    <div>
+                        <label style="font-size:14px; color:#333;">选择银行</label>
+                        <select id="bankSelect" style="width:100%; padding:10px; margin-top:6px; border:1px solid #ddd; border-radius:8px;">
+                            <option value="">请选择</option>
+                            <option value="中国工商银行">中国工商银行（ICBC）</option>
+                            <option value="中国建设银行">中国建设银行（CCB）</option>
+                            <option value="招商银行">招商银行（CMB）</option>
+                            <option value="中国农业银行">中国农业银行（ABC）</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size:14px; color:#333;">卡类型</label>
+                        <div style="margin-top:6px;">
+                            <label style="margin-right:16px;"><input type="radio" name="cardType" value="0" checked> 储蓄卡</label>
+                            <label><input type="radio" name="cardType" value="1"> 信用卡</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="font-size:14px; color:#333;">卡号</label>
+                        <input id="cardNumberInput" type="text" placeholder="请输入卡号" style="width:100%; padding:10px; margin-top:6px; border:1px solid #ddd; border-radius:8px;">
+                    </div>
+                    <div>
+                        <label style="font-size:14px; color:#333;">预留手机号</label>
+                        <input id="phoneInput" type="tel" placeholder="请输入银行预留手机号" maxlength="11" style="width:100%; padding:10px; margin-top:6px; border:1px solid #ddd; border-radius:8px;">
+                    </div>
+                </div>
+                <div style="display:flex; gap:10px; margin-top:16px;">
+                    <button id="cancelAddCard" class="btn btn-outline" style="flex:1;">取消</button>
+                    <button id="confirmAddCard" class="btn" style="flex:1; background: linear-gradient(135deg, #0f4c81, #1a3a5f);">确认绑定</button>
+                </div>
+            </div>
+        </div>
 
         <!-- 银行卡管理说明 -->
         <div class="card">
             <h3 style="font-size: 16px; margin-bottom: 10px;">银行卡管理说明</h3>
             <ul style="font-size: 14px; color: #666; line-height: 1.8; padding-left: 20px;">
-                <li>您最多可以绑定3张银行卡</li>
-                <li>仅支持绑定储蓄卡，不支持信用卡</li>
-                <li>首次添加银行卡需要进行身份验证</li>
+                <li>每个账户可绑定多张卡，建议最多绑定3张</li>
+                <li>支持绑定储蓄卡与信用卡</li>
+                <li>绑定时需填写本人银行卡信息与预留手机号</li>
                 <li>解绑银行卡后，相关的自动还款设置将失效</li>
             </ul>
         </div>
@@ -193,11 +201,174 @@
     </div>
 
     <script>
-        // 添加银行卡按钮点击事件
-        document.querySelector('.add-card-btn').addEventListener('click', function() {
-            alert('即将跳转到添加银行卡页面');
+        const API_BASE = 'http://115.190.40.44:45333';
+
+        function getToken() {
+            const t1 = localStorage.getItem('accessToken');
+            if (t1) return t1;
+            try {
+                const auth = JSON.parse(localStorage.getItem('authData') || '{}');
+                return auth.accessToken || '';
+            } catch (e) {
+                return '';
+            }
+        }
+
+        function bankStyle(bankName) {
+            switch (bankName) {
+                case '中国建设银行':
+                    return 'linear-gradient(135deg, #6a9be9, #7aaaf5)';
+                case '中国工商银行':
+                    return 'linear-gradient(135deg, #0f4c81, #1a3a5f)';
+                default:
+                    return 'linear-gradient(135deg, #2c5ba5, #3a6bb1)';
+            }
+        }
+
+        function renderCard(card) {
+            const bank = card.bank_name || card.bank || '';
+            const cardId = card.card_id || card.cardId || card.cardNumber || '';
+            const type = card.card_type !== undefined ? card.card_type : card.type;
+            const typeText = String(type) === '1' ? '信用卡' : '储蓄卡';
+            const tail = String(cardId || '').slice(-4) || '';
+            const gradient = bankStyle(bank);
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'card-item';
+            wrapper.style.background = gradient;
+
+            const masked = String(cardId || '')
+                .replace(/\D/g, '')
+                .replace(/(\d{4})(?=\d)/g, '$1 ');
+
+            const idForDelete = card.cardId || card.card_id || cardId;
+
+            wrapper.innerHTML = `
+                <div class="card-bank"><i class="fas fa-university" style="margin-right:10px;"></i>${bank}</div>
+                <div class="card-number">${masked}</div>
+                <div class="card-info">
+                    <div>${typeText}</div>
+                    <div>尾号${tail}</div>
+                </div>
+                <div class="card-actions">
+                    <button class="card-action-btn" data-action="unbind" data-cardid="${idForDelete}">
+                        <i class="fas fa-trash-alt"></i> 解绑
+                    </button>
+                </div>
+            `;
+            return wrapper;
+        }
+
+        async function fetchCardList() {
+            const token = getToken();
+            const headers = token ? { Authorization: token } : {};
+            try {
+                const res = await fetch(`${API_BASE}/account/cardList`, { method: 'GET', headers });
+                const json = await res.json().catch(() => ({}));
+                const list = json.data || json.cards || [];
+                const container = document.getElementById('cardsList');
+                container.innerHTML = '';
+                if (!list || list.length === 0) {
+                    document.getElementById('emptyState').style.display = 'block';
+                    return;
+                }
+                document.getElementById('emptyState').style.display = 'none';
+                list.forEach(c => container.appendChild(renderCard(c)));
+            } catch (e) {
+                console.error('获取银行卡列表失败:', e);
+                document.getElementById('emptyState').style.display = 'block';
+            }
+        }
+
+        function openAddModal() { document.getElementById('addCardModal').style.display = 'flex'; }
+        function closeAddModal() { document.getElementById('addCardModal').style.display = 'none'; }
+
+        function formatCardInput() {
+            const input = document.getElementById('cardNumberInput');
+            input.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+            });
+        }
+
+        async function bindCard() {
+            const token = getToken();
+            if (!token) {
+                alert('请先登录后再绑定银行卡');
+                return;
+            }
+            const bank = document.getElementById('bankSelect').value;
+            const cardType = document.querySelector('input[name="cardType"]:checked').value;
+            const cardNumber = document.getElementById('cardNumberInput').value.replace(/\s+/g, '');
+            const phone = document.getElementById('phoneInput').value;
+
+            if (!bank) return alert('请选择银行');
+            if (!cardNumber || cardNumber.length < 12) return alert('请输入有效卡号');
+            if (!/^\d{11}$/.test(phone)) return alert('请输入11位手机号');
+
+            const headers = { Authorization: token };
+            const qs = new URLSearchParams({
+                bank_name: bank,
+                card_type: cardType,
+                card_id: cardNumber,
+                phone: phone
+            }).toString();
+
+            try {
+                const res = await fetch(`${API_BASE}/account/bindCard?${qs}`, { method: 'POST', headers });
+                const json = await res.json().catch(() => ({}));
+                if (json.success) {
+                    alert('绑定成功');
+                    closeAddModal();
+                    await fetchCardList();
+                } else {
+                    alert(json.message || '绑定失败');
+                }
+            } catch (e) {
+                console.error('绑定失败', e);
+                alert('绑定失败，请稍后重试');
+            }
+        }
+
+        async function unbindCard(cardId) {
+            const token = getToken();
+            if (!token) {
+                alert('请先登录后再解绑银行卡');
+                return;
+            }
+            if (!confirm('确定解绑该银行卡吗？')) return;
+            const headers = { Authorization: token };
+            const qs = new URLSearchParams({ cardId: cardId }).toString();
+
+            try {
+                const res = await fetch(`${API_BASE}/account/deleteCard?${qs}`, { method: 'DELETE', headers });
+                const json = await res.json().catch(() => ({}));
+                if (json.success) {
+                    alert('解绑成功');
+                    await fetchCardList();
+                } else {
+                    alert(json.message || '解绑失败');
+                }
+            } catch (e) {
+                console.error('解绑失败', e);
+                alert('解绑失败，请稍后重试');
+            }
+        }
+
+        // 事件绑定
+        document.getElementById('openAddCardModal').addEventListener('click', openAddModal);
+        document.getElementById('cancelAddCard').addEventListener('click', closeAddModal);
+        document.getElementById('confirmAddCard').addEventListener('click', bindCard);
+        document.getElementById('cardsList').addEventListener('click', function(e) {
+            const btn = e.target.closest('button[data-action="unbind"]');
+            if (btn) {
+                const id = btn.getAttribute('data-cardid');
+                unbindCard(id);
+            }
         });
-        
+
+        formatCardInput();
+        fetchCardList();
+
         // 底部导航栏点击事件
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function(e) {

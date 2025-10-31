@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.success) {
                     alert('注册成功！');
                     // 注册成功后可以跳转到登录页面
-                    // window.location.href = 'login_废弃.html';
+                    window.location.href = '../username_pwd.html';
                 } else {
                     alert(`注册失败: ${data.errCode || '未知错误'}`);
                 }
