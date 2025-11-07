@@ -76,7 +76,7 @@ loginBtn.addEventListener('click', async function() {
         localStorage.setItem('authData', JSON.stringify(authData));
 
         console.log('登录成功，token已存储', authData);
-        alert('登录成功！');
+        //alert('登录成功！');
         window.location.href = 'index.html';
     } catch (error) {
         console.error('登录失败:', error);
@@ -90,7 +90,7 @@ loginBtn.addEventListener('click', async function() {
 
 // 注册按钮点击事件
 registerBtn.addEventListener('click', function() {
-    alert('跳转到注册页面');
+    //alert('跳转到注册页面');
     window.location.href = 'register.html';
 });
 
