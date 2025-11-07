@@ -512,7 +512,9 @@
     // 提交申请
     function submitApplication() {
         const amount = parseFloat(document.getElementById('loanAmount').value) || 0;
+        const amount_String = String(amount);
         const term = parseInt(document.querySelector('.term-option.active').dataset.months);
+        const term_String = String(term);
         const bank = document.getElementById('bankSelect').value;
         const cardNumber = document.getElementById('bankCardNumber').value.replace(/\s/g, '');
         const agreed = document.getElementById('agreeCheck').checked;
@@ -544,11 +546,11 @@
         // 这里可以添加实际的提交逻辑，如AJAX请求等
         // 例如：
         const formData = {
-            productID: 1,
+            productId: "774445794009872708",
             amount: amount,
             termCount: term,
-            card_id: cardNumber,
-            face: "good_morning.png",
+            // card_id: cardNumber,
+            // face: "good_morning.png",
             // 其他必要字段...
         };
         const authDataStr = localStorage.getItem('authData');
@@ -584,7 +586,7 @@
 
 
 
-        fetch("http://115.190.40.44:45333/loan/loan?productID=" + formData.productID + "&amount=" + formData.amount + "&termCount=" + formData.termCount + "&card_id=" + formData.card_id + "&face=" + formData.face, requestOptions)
+        fetch("http://115.190.40.44:45444/loan/loan", requestOptions)
             .then(response => response.text())
             .then(result => {
                 console.log(result);
