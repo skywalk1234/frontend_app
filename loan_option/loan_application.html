@@ -550,6 +550,7 @@
         if (productDataParam) {
             try {
                 loanProductData = JSON.parse(decodeURIComponent(productDataParam));
+                loanProductData.id=Number(loanProductData.id);
                 console.log('从URL获取的产品数据:', loanProductData);
                 updateProductInfo();
             } catch (error) {
@@ -774,7 +775,7 @@
 
         // 构建提交数据
         const formData = {
-            productId: loanProductData.id || "default_product_id",
+            productId: Number(loanProductData.id),//|| "default_product_id",
             amount: amount,
             termCount: term,
             bankCode: bank,
