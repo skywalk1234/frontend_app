@@ -74,6 +74,11 @@ loginBtn.addEventListener('click', async function() {
 
         // 可以存储到localStorage或sessionStorage中
         localStorage.setItem('authData', JSON.stringify(authData));
+        
+        // 设置统一的登录状态标识，与邮箱登录保持一致
+        localStorage.setItem('userLoggedIn', 'true');
+        localStorage.setItem('loginMethod', 'password');
+        localStorage.setItem('userInfo', JSON.stringify({username: username}));
 
         console.log('登录成功，token已存储', authData);
         //alert('登录成功！');

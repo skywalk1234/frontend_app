@@ -20,7 +20,7 @@
         <div class="user-avatar">
             <i class="fas fa-user"></i>
         </div>
-        <div class="user-phone">138****8888</div>
+        <div class="user-info-text">138****8888</div>
         <button class="btn btn-outline" id="realnameBtn" style="margin-top: 10px;">去实名认证</button>
     </div>
 
@@ -119,28 +119,58 @@
         function updateUserDataBasedOnLogin() {
             // 从localStorage获取登录状态和用户信息
             const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            const loginMethod = localStorage.getItem('loginMethod');
+            let userInfo;
             
-            if (isLoggedIn && userInfo) {
-                // 更新用户信息
-                const userPhoneElement = document.querySelector('.user-phone');
+            try {
+                // 尝试获取email登录的用户信息
+                userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            } catch (e) {
+                userInfo = null;
+            }
+            
+            // 如果是邮箱登录方式
+            if (isLoggedIn && loginMethod === 'email' && userInfo && userInfo.email) {
+                const userInfoElement = document.querySelector('.user-info-text');
+                const email = userInfo.email;
                 
-                if (userInfo.phone) {
-                    // 手机号登录
-                    const maskedPhone = userInfo.phone.substring(0, 3) + '****' + userInfo.phone.substring(7);
-                    userPhoneElement.textContent = maskedPhone;
-                } else if (userInfo.email) {
-                    // 邮箱登录
-                    const emailParts = userInfo.email.split('@');
-                    const maskedEmail = emailParts[0].substring(0, 3) + '****@' + emailParts[1];
-                    userPhoneElement.textContent = maskedEmail;
+                // 对邮箱进行脱敏处理，只显示前3位和域名
+                if (email.includes('@')) {
+                    const [username, domain] = email.split('@');
+                    const maskedUsername = username.substring(0, 3) + '****';
+                    const maskedEmail = maskedUsername + '@' + domain;
+                    userInfoElement.textContent = maskedEmail;
+                } else {
+                    userInfoElement.textContent = email; // 如果格式不正确，显示原始邮箱
                 }
-                
-                // 根据登录状态可以更新其他数据，例如额度、余额等
-                // 这里简单示例，实际应用中可能需要从服务器获取最新数据
-            } else {
-                // 用户未登录，可以跳转到登录页面
-                // window.location.href = 'login1.html';
+                return;
+            }
+            
+            // 尝试从authData中获取用户信息（账号密码登录方式）
+            try {
+                const authData = JSON.parse(localStorage.getItem('authData'));
+                if (authData && authData.accessToken) {
+                    // 这里需要根据实际情况解析token获取用户信息
+                    // 简化处理：显示一个默认的账号格式
+                    const userInfoElement = document.querySelector('.user-info-text');
+                    
+                    // 为了示例，我们仍然使用phone格式，但实际应该从token中解析
+                    userInfoElement.textContent = '138****8888';
+                }
+            } catch (e) {
+                console.error('解析authData失败:', e);
+            }
+        }
+        
+        // 模拟获取并显示用户邮箱（演示用）
+        function simulateUserLogin() {
+            // 仅用于演示：如果没有登录状态，模拟一个已登录的邮箱用户
+            if (!localStorage.getItem('userLoggedIn')) {
+                // 演示用：设置一个模拟的登录状态和邮箱
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('loginMethod', 'email');
+                localStorage.setItem('userInfo', JSON.stringify({email: 'demo@example.com'}));
+                console.log('已模拟邮箱用户登录状态');
             }
         }
         
@@ -148,10 +178,13 @@
         updateTime();
         setInterval(updateTime, 60000);
         
+        // 模拟用户登录状态（仅用于演示）
+        simulateUserLogin();
+        
         // 更新用户数据
         updateUserDataBasedOnLogin();
 
-        // 根据人脸识别状态控制“去实名认证”按钮显示
+        // 根据人脸识别状态控制"去实名认证"按钮显示
         (function() {
             const realnameBtn = document.getElementById('realnameBtn');
             if (realnameBtn) {
@@ -195,6 +228,7 @@
                         localStorage.removeItem('userLoggedIn');
                         localStorage.removeItem('loginMethod');
                         localStorage.removeItem('userInfo');
+                        localStorage.removeItem('authData');
                         
                         alert('已退出登录');
                         // 跳转到登录页面

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+<script src="./js/refreshToken.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -339,8 +340,9 @@
                 applyBtn.className = 'btn';
                 applyBtn.textContent = '立即申请';
                 applyBtn.onclick = function() {
-                    // 可以根据产品ID跳转到不同的申请页面
-                    window.location.href = `realname.html?productId=${product.id}`;
+                    // 将完整产品数据编码后传递到申请页面
+                    const productData = encodeURIComponent(JSON.stringify(product));
+                    window.location.href = `loan_option/loan_application.html?productData=${productData}`;
                 };
 
                 // 最高额度标签
