@@ -369,14 +369,12 @@
             handleWebSocketMessage(data);
         });
 
-// 连接
-        try{
+//
+        try {
             wsService.connect();
-        }catch (e) {
-            console.log("未找到全局WebSocket对象，将使用模拟数据");
+        } catch (error) {
+            console.error("WebSocket连接失败:", error);
         }
-    });
-        wsService.connect();
 
 
         // if (typeof window.webSocket !== 'undefined') {
@@ -411,7 +409,7 @@
             //     };
             //     handleWebSocketMessage(mockWebSocketData);
             // }, 2000);
-        }
+        // }
     });
 </script>
 </body>
