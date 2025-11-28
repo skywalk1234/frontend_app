@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>消息 - 金融借贷平台</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="./js/webSocket.js"></script>
     <style>
         * {
             margin: 0;
@@ -264,10 +265,10 @@
     // 消息类型数据
     const messageTypes = [
         { type: "系统通知", bgColor: "#E0F7FA" },
-        { type: "交易提醒", bgColor: "#FFF3E0" },
-        { type: "营销活动", bgColor: "#F3E5F5" },
-        { type: "客服消息", bgColor: "#E3F2FD" },
-        { type: "额度调整", bgColor: "#E8F5E9" }
+        { type: "审核结果", bgColor: "#FFF3E0" },
+        { type: "还款提醒", bgColor: "#F3E5F5" },
+        { type: "交易提醒", bgColor: "#E3F2FD" },
+        { type: "其他消息", bgColor: "#E8F5E9" }
     ];
 
     // 获取消息列表容器
@@ -415,16 +416,16 @@
     renderMessages();
     const messageChannel = new BroadcastChannel('loan_messages');
     // 收到消息的广播
-    document.addEventListener('DOMContentLoaded', function() {
-        const messageChannel = new BroadcastChannel('loan_messages');
-        messageChannel.addEventListener('message', (event) => {
-            console.log('收到消息：', event.data);
-            if (event.data.type === 'newLoanApply') {
-                const newMessage = generateApplyMessage();
-                addMessageElement(newMessage.time, newMessage.title, newMessage.content, newMessage.bgColor);
-            }
-        });
-    });
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const messageChannel = new BroadcastChannel('loan_messages');
+    //     messageChannel.addEventListener('message', (event) => {
+    //         console.log('收到消息：', event.data);
+    //         if (event.data.type === 'newLoanApply') {
+    //             const newMessage = generateApplyMessage();
+    //             addMessageElement(newMessage.time, newMessage.title, newMessage.content, newMessage.bgColor);
+    //         }
+    //     });
+    // });
 
     function generateNewMessage(data) {
         // 生成新消息的逻辑

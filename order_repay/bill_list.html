@@ -463,8 +463,8 @@
 
     // 跳转到还款页面
     function goToRepayPage(loanId, principal, paidAmount, paidPeriods, totalPeriods) {
-        // 存储当前账单信息到sessionStorage，以便还款页面使用
-        sessionStorage.setItem('currentBill', JSON.stringify({
+        // 存储当前账单信息到localStorage，以便还款页面使用
+        localStorage.setItem('currentBill', JSON.stringify({
             loanId: loanId,
             principal: principal,
             paidAmount: paidAmount,
