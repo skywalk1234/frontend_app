@@ -166,16 +166,3 @@ const wsService = new WebSocketService({
     heartbeatInterval: 25000
 });
 
-// 监听事件
-wsService.on('connected', () => {
-    console.log('连接成功');
-    // 发送认证信息
-    wsService.send('auth', { token: 'your-token' });
-});
-
-wsService.on('message', (data) => {
-    console.log('收到消息:', data);
-});
-
-// 连接
-wsService.connect();

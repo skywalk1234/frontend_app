@@ -139,24 +139,23 @@
             color: #1976D2;
         }
 
-        /* 新增消息按钮样式 */
-        /*.add-message-btn {*/
-        /*    position: fixed;*/
-        /*    bottom: 80px;*/
-        /*    right: 20px;*/
-        /*    width: 50px;*/
-        /*    height: 50px;*/
-        /*    background-color: #1976D2;*/
-        /*    color: white;*/
-        /*    border-radius: 50%;*/
-        /*    display: flex;*/
-        /*    justify-content: center;*/
-        /*    align-items: center;*/
-        /*    font-size: 24px;*/
-        /*    box-shadow: 0 2px 10px rgba(0,0,0,0.2);*/
-        /*    cursor: pointer;*/
-        /*    z-index: 99;*/
-        /*}*/
+        /* 新消息提示动画 */
+        .new-message-indicator {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 12px;
+            height: 12px;
+            background-color: #ff4757;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -182,9 +181,6 @@
         <!-- 初始消息将通过JavaScript动态添加 -->
     </div>
 </div>
-
-<!-- 新增消息按钮 -->
-
 
 <!-- 底部导航栏 -->
 <div class="nav">
@@ -222,76 +218,58 @@
     updateTime();
     setInterval(updateTime, 60000);
 
-    // 消息数据
-    const messageData = [
-        {
-            time: "12:00",
-            title: "还款提醒",
-            content: "您的贷款即将于3天后到期，请及时还款，避免产生逾期费用。",
-            bgColor: "#FFF3E0"
-        },
-        {
-            time: "昨天",
-            title: "审核通过",
-            content: "恭喜！您的申请已审核通过，额度已授信100000元，资金已打入您的银行卡。",
-            bgColor: "#E8F5E9"
-        },
-        {
-            time: "昨天",
-            title: "信息核对",
-            content: "您的信息已成功提交，我们将尽快为您进行审核，请耐心等待。",
-            bgColor: "#E3F2FD"
-        },
-        {
-            time: "2天前",
-            title: "活动通知",
-            content: "新用户专享优惠，首笔贷款免息30天，点击查看详情。",
-            bgColor: "#F3E5F5"
-        },
-        {
-            time: "3天前",
-            title: "总授信提升",
-            content: "您的信用评级已提升，总授信额度已提升至200000元，可申请最高贷款额度已更新。",
-            bgColor: "#FFF3E0"
-        },
-        {
-            time: "1周前",
-            title: "系统通知",
-            content: "系统将于今晚23:00-次日凌晨2:00进行维护升级，期间部分功能可能暂时无法使用，请您错峰操作。",
-            bgColor: "#E0F7FA"
-        }
-    ];
+    // 消息类型映射 - 将后端type映射到前端消息类型
+    const messageTypeMapping = {
+        1: { title: "还款提醒", bgColor: "#F3E5F5" },
+        2: { title: "审核结果", bgColor: "#FFF3E0" },
+        3: { title: "系统通知", bgColor: "#E0F7FA" },
+        4: { title: "交易提醒", bgColor: "#E3F2FD" },
+        5: { title: "营销活动", bgColor: "#E8F5E9" },
+        // 添加更多类型映射...
+    };
 
-    // 消息类型数据
-    const messageTypes = [
-        { type: "系统通知", bgColor: "#E0F7FA" },
-        { type: "审核结果", bgColor: "#FFF3E0" },
-        { type: "还款提醒", bgColor: "#F3E5F5" },
-        { type: "交易提醒", bgColor: "#E3F2FD" },
-        { type: "其他消息", bgColor: "#E8F5E9" }
-    ];
+    // 默认消息类型
+    const defaultMessageType = { title: "系统通知", bgColor: "#E0F7FA" };
+
+    // 初始消息数据
+    const messageData = null;
 
     // 获取消息列表容器
     const messageList = document.getElementById('messageList');
 
     // 渲染初始消息
-    function renderMessages() {
-        messageData.forEach(msg => {
-            addMessageElement(msg.time, msg.title, msg.content, msg.bgColor);
-        });
-    }
+    // function renderMessages() {
+    //     messageData.forEach(msg => {
+    //         addMessageElement(msg.time, msg.title, msg.content, msg.bgColor);
+    //     });
+    // }
 
     // 添加消息元素到DOM
-    function addMessageElement(time, title, content, bgColor) {
-        console.log("将生成好的消息添加到消息栏")
+    function addMessageElement(time, title, content, bgColor, isNew = false) {
+        console.log("将生成好的消息添加到消息栏");
         const msgItem = document.createElement('div');
         msgItem.className = 'msg-item';
         msgItem.style.background = bgColor;
         msgItem.innerHTML = `
-                <div class="msg-time">${time}</div>
-                <div class="msg-content">${title}</div>
-                <div class="msg-detail">${content}</div>
-            `;
+            <div class="msg-time">${time}</div>
+            <div class="msg-content">${title}</div>
+            <div class="msg-detail">${content}</div>
+        `;
+
+        // 如果是新消息，添加新消息指示器
+        if (isNew) {
+            const newIndicator = document.createElement('div');
+            newIndicator.className = 'new-message-indicator';
+            msgItem.style.position = 'relative';
+            msgItem.appendChild(newIndicator);
+
+            // 3秒后移除新消息指示器
+            setTimeout(() => {
+                if (newIndicator.parentNode) {
+                    newIndicator.remove();
+                }
+            }, 3000);
+        }
 
         // 添加点击事件
         msgItem.addEventListener('click', function() {
@@ -302,75 +280,38 @@
         messageList.insertBefore(msgItem, messageList.firstChild);
     }
 
-    // 生成随机消息
-    function generateRandomMessage() {
-        const now = new Date();
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
-        const formattedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+    // 处理WebSocket接收到的消息
+    function handleWebSocketMessage(data) {
+        console.log("收到WebSocket消息:", data);
 
-        const randomType = messageTypes[Math.floor(Math.random() * messageTypes.length)];
-        const randomContent = getRandomContent(randomType.type);
+        // 检查错误码
+        if (data.errorcode !== 200) {
+            console.error("WebSocket消息错误:", data);
+            return;
+        }
 
-        return {
-            time: formattedTime,
-            title: randomType.type,
-            content: randomContent,
-            bgColor: randomType.bgColor
-        };
-    }
-    function generateApplyMessage() {
-        console.log("正在执行生成消息操作")
-        const now = new Date();
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
-        const formattedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+        // 处理消息列表
+        if (data.message_list && Array.isArray(data.message_list)) {
+            data.message_list.forEach(message => {
+                // 获取当前时间
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                const formattedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
 
-        const Type = messageTypes[1];
-        const Content = getRandomContent(Type.type,0);
+                // 根据type获取消息类型信息
+                const messageType = messageTypeMapping[message.type] || defaultMessageType;
 
-        return {
-            time: formattedTime,
-            title: Type.type,
-            content: Content,
-            bgColor: Type.bgColor
-        };
-    }
-
-    // 根据消息类型生成内容
-    function getRandomContent(type, select) {
-        //传入类型以及需要类型中的第几条消息
-        const contents = {
-            "系统通知": [
-                "系统将于今晚进行维护升级，预计耗时2小时。",
-                "新版本已上线，修复了若干已知问题。",
-                "系统检测到您的账户有异常登录，请及时查看。"
-            ],
-            "交易提醒": [
-                "您的借款申请已提交成功，正在审核中。",
-                "您有一笔还款即将到期，请确保账户余额充足。",
-                "您的账户收到一笔转账，金额为5000元。"
-            ],
-            "营销活动": [
-                "限时优惠！本月借款利率下调1%。",
-                "邀请好友注册，双方各得100元现金券。",
-                "新用户专享：首笔借款免息30天。"
-            ],
-            "客服消息": [
-                "您的问题已收到，客服将在24小时内回复。",
-                "感谢您的反馈，我们已记录您的问题。",
-                "您的投诉已受理，我们将尽快处理。"
-            ],
-            "额度调整": [
-                "您的信用额度已提升至150000元。",
-                "根据您的信用评级，可借款额度已更新。",
-                "临时额度申请已通过，有效期至本月底。"
-            ]
-        };
-
-        // const options = contents[type] || ["这是一条新消息，请查看详情。"];
-        const options = contents[type];
-        return options[select];
+                // 添加消息到列表
+                addMessageElement(
+                    formattedTime,
+                    messageType.title,
+                    message.content,
+                    messageType.bgColor,
+                    true  // 标记为新消息
+                );
+            });
+        }
     }
 
     // 为消息分类添加点击事件
@@ -400,41 +341,78 @@
         });
     });
 
-    // 添加消息按钮点击事件
-    // document.getElementById('addMessageBtn').addEventListener('click', function() {
-    //     const newMessage = generateRandomMessage();
-    //     addMessageElement(newMessage.time, newMessage.title, newMessage.content, newMessage.bgColor);
-    //
-    //     // 可以添加动画效果
-    //     this.style.transform = 'scale(1.2)';
-    //     setTimeout(() => {
-    //         this.style.transform = 'scale(1)';
-    //     }, 300);
-    // });
-
     // 初始化渲染消息
-    renderMessages();
-    const messageChannel = new BroadcastChannel('loan_messages');
-    // 收到消息的广播
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const messageChannel = new BroadcastChannel('loan_messages');
-    //     messageChannel.addEventListener('message', (event) => {
-    //         console.log('收到消息：', event.data);
-    //         if (event.data.type === 'newLoanApply') {
-    //             const newMessage = generateApplyMessage();
-    //             addMessageElement(newMessage.time, newMessage.title, newMessage.content, newMessage.bgColor);
-    //         }
-    //     });
-    // });
+    // renderMessages();
 
-    function generateNewMessage(data) {
-        // 生成新消息的逻辑
-    }
-    // 模拟实时消息推送（每30秒随机添加一条新消息）
-    // setInterval(() => {
-    //     const newMessage = generateRandomMessage();
-    //     addMessageElement(newMessage.time, newMessage.title, newMessage.content, newMessage.bgColor);
-    // }, 30000);
+    // WebSocket消息处理
+    // 假设webSocket.js已经创建了全局的WebSocket连接
+    // 我们需要监听WebSocket的消息事件
+    document.addEventListener('DOMContentLoaded', function() {
+        // 检查是否存在全局WebSocket对象
+
+        const wsService = new WebSocketService({
+            url: 'ws://localhost:8080/ws/n12pgdie1s',
+            reconnect: true,
+            heartbeatInterval: 25000
+        });
+
+// 监听事件
+//         wsService.on('connected', () => {
+//             console.log('连接成功');
+//             // 发送认证信息
+//             wsService.send('auth', { token: 'your-token' });
+//         });
+
+        wsService.on('message', (data) => {
+            console.log('收到消息:', data);
+
+            handleWebSocketMessage(data);
+        });
+
+// 连接
+        try{
+            wsService.connect();
+        }catch (e) {
+            console.log("未找到全局WebSocket对象，将使用模拟数据");
+        }
+    });
+        wsService.connect();
+
+
+        // if (typeof window.webSocket !== 'undefined') {
+        //     // 添加消息监听器
+        //     window.webSocket.onmessage = function(event) {
+        //         try {
+        //             const data = JSON.parse(event.data);
+        //             handleWebSocketMessage(data);
+        //         } catch (error) {
+        //             console.error("解析WebSocket消息失败:", error);
+        //         }
+        //     };
+        //
+        //     console.log("WebSocket消息监听器已设置");
+        // } else {
+        //     console.warn("未找到全局WebSocket对象，将使用模拟数据");
+
+            // 模拟WebSocket消息（用于测试）
+            // setTimeout(() => {
+            //     const mockWebSocketData = {
+            //         errorcode: 200,
+            //         message_list: [
+            //             {
+            //                 type: 1,
+            //                 content: "赶快还钱，再不还钱就别想借了"
+            //             },
+            //             {
+            //                 type: 2,
+            //                 content: "您的贷款申请审核成功，去我的账单查看吧"
+            //             }
+            //         ]
+            //     };
+            //     handleWebSocketMessage(mockWebSocketData);
+            // }, 2000);
+        }
+    });
 </script>
 </body>
 </html>
